@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>陈昊烨 Charlie · Experience Designer</title>
+  <meta name="description" content="服务设计 × 商业思维 × AI 原生实践 / 全链路体验设计师">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <style>
+    :root {
+      --color-bg:               #0a0a0a;
+      --color-bg-elevated:      #111111;
+      --color-bg-card:          #141414;
+      --color-border:           rgba(255, 255, 255, 0.07);
+      --color-border-strong:    rgba(255, 255, 255, 0.14);
+      --color-text-primary:     #f0f0ee;
+      --color-text-secondary:   #6b6b6b;
+      --color-text-tertiary:    #444444;
+      --color-accent:           #4f9eff;
+      --color-accent-dim:       rgba(79, 158, 255, 0.12);
+      --color-accent-warm:      #ff7043;
+      --color-status-green:     #22c55e;
+      --font-sans: 'Inter', 'PingFang SC', 'Noto Sans SC', -apple-system, sans-serif;
+      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --container-max: 1180px;
+      --container-pad: clamp(20px, 5vw, 80px);
+      --section-gap: clamp(80px, 12vw, 140px);
+      --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px;
+      --radius-xl: 24px; --radius-full: 9999px;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-fast: 0.15s; --duration-base: 0.3s; --duration-slow: 0.6s;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--color-bg); color: var(--color-text-primary);
+      font-family: var(--font-sans); font-size: 16px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul, ol { list-style: none; }
+
+    .container { width: 100%; max-width: var(--container-max); margin-inline: auto; padding-inline: var(--container-pad); }
+    .section { padding-block: var(--section-gap); }
+
+    .text-display { font-size: clamp(2.2rem, 5.5vw, 4.4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; }
+    .text-headline { font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+    .text-body { font-size: clamp(0.875rem, 1.4vw, 0.975rem); line-height: 1.8; color: var(--color-text-secondary); }
+    .text-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); }
+
+    .tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 500; border: 1px solid var(--color-border-strong); color: var(--color-text-secondary); background: var(--color-bg-elevated); }
+    .tag--accent { border-color: rgba(79,158,255,.3); color: var(--color-accent); background: var(--color-accent-dim); }
+    .work-card:nth-child(2) .tag--accent { border-color:rgba(34,197,94,.3); color:var(--color-status-green); background:rgba(34,197,94,.08); }
+    .work-card:nth-child(3) .tag--accent { border-color:rgba(255,112,67,.3); color:var(--color-accent-warm); background:rgba(255,112,67,.08); }
+    .tag--status { border-color: rgba(34,197,94,.3); color: var(--color-status-green); background: rgba(34,197,94,.08); }
+    .tag--status::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--color-status-green); animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 24px; border-radius:var(--radius-md); font-size:.875rem; font-weight:500; cursor:pointer; transition:all var(--duration-base) var(--ease-out); border:1px solid transparent; }
+    .btn--primary { background:var(--color-text-primary); color:var(--color-bg); border-color:var(--color-text-primary); }
+    .btn--primary:hover { background:transparent; color:var(--color-text-primary); }
+    .btn--ghost { background:transparent; color:var(--color-text-secondary); border-color:var(--color-border-strong); }
+    .btn--ghost:hover { color:var(--color-text-primary); border-color:rgba(255,255,255,.3); background:rgba(255,255,255,.04); }
+
+    .section-label { display:flex; align-items:center; gap:12px; margin-bottom:52px; }
+    .section-label::before { content:''; width:3px; height:18px; border-radius:2px; background:var(--color-accent); flex-shrink:0; }
+
+    /* NAV */
+    #nav { position:fixed; top:0; left:0; right:0; z-index:100; transition:background var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out); border-bottom:1px solid transparent; }
+    #nav.scrolled { background:rgba(10,10,10,.88); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom-color:var(--color-border); }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; height:60px; }
+    .nav-logo { font-size:.95rem; font-weight:700; letter-spacing:.01em; color:var(--color-text-primary); transition:opacity var(--duration-fast); white-space:nowrap; }
+    .nav-logo .en { font-weight:400; color:var(--color-text-secondary); margin-left:6px; font-size:.85rem; }
+    .nav-logo:hover { opacity:.7; }
+    .nav-links { display:flex; align-items:center; gap:2px; }
+    .nav-link { padding:6px 14px; border-radius:var(--radius-sm); font-size:.875rem; font-weight:500; color:var(--color-text-secondary); transition:color var(--duration-fast), background var(--duration-fast); }
+    .nav-link:hover, .nav-link.active { color:var(--color-text-primary); background:rgba(255,255,255,.06); }
+    .nav-right { display:flex; align-items:center; gap:16px; }
+    .nav-menu-btn { display:none; flex-direction:column; gap:5px; padding:8px; cursor:pointer; background:none; border:none; }
+    .nav-menu-btn span { display:block; width:20px; height:1.5px; background:var(--color-text-secondary); border-radius:2px; }
+
+    /* HERO */
+    #hero { min-height:100svh; display:flex; align-items:center; padding-top:80px; padding-bottom:80px; position:relative; overflow:hidden; }
+    #hero::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size:64px 64px; mask-image:radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%); pointer-events:none; }
+    .hero-grid { display:grid; grid-template-columns:1fr 420px; gap:clamp(40px,5vw,80px); align-items:center; position:relative; z-index:1; width:100%; }
+    .hero-eyebrow { margin-bottom:28px; }
+    .hero-title { margin-bottom:22px; }
+    .hero-title .line { display:block; }
+    .typewriter-cursor { display:inline-block; width:3px; height:.85em; background:var(--color-accent); border-radius:2px; margin-left:4px; vertical-align:middle; animation:blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-subtitle { margin-bottom:40px; max-width:500px; }
+    .hero-cta { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+
+    .hero-photo-wrap { position:relative; width:100%; max-width:420px; aspect-ratio:3/4; }
+    .hero-photo-wrap::before { content:''; position:absolute; inset:12px -12px -12px 12px; border:1px solid var(--color-border-strong); border-radius:var(--radius-xl); z-index:0; }
+    .hero-photo { width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:var(--radius-xl); position:relative; z-index:1; display:block; }
+    .hero-photo-placeholder { width:100%; height:100%; border-radius:var(--radius-xl); background:linear-gradient(160deg,#1a1a1a 0%,#111 100%); border:1px solid var(--color-border-strong); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; position:relative; z-index:1; }
+    .hero-photo-placeholder .ph-icon { width:56px; height:56px; border-radius:50%; border:1px dashed var(--color-border-strong); display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--color-text-tertiary); }
+    .hero-photo-placeholder .ph-text { font-size:.72rem; color:var(--color-text-tertiary); font-family:var(--font-mono); text-align:center; }
+
+    .scroll-indicator { position:absolute; bottom:36px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; opacity:.3; animation:float 2.5s ease-in-out infinite; }
+    .scroll-indicator span { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500; }
+    .scroll-indicator::after { content:''; width:1px; height:28px; background:linear-gradient(to bottom, var(--color-text-secondary), transparent); }
+    @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ABOUT */
+    #about { border-top:1px solid var(--color-border); }
+    #about .container { max-width:1500px; }
+    .experience-layout { display:grid; grid-template-columns:minmax(440px,.9fr) minmax(0,1.5fr); gap:clamp(40px,4.4vw,64px); align-items:start; }
+    .experience-education { padding-right:clamp(22px,3vw,52px); border-right:1px solid var(--color-border-strong); }
+    .experience-title { font-size:clamp(2rem,4.2vw,3.2rem); font-weight:800; line-height:1.05; letter-spacing:-.03em; color:var(--color-text-primary); text-shadow:0 0 22px rgba(255,255,255,.18); margin-bottom:32px; }
+    .education-list { display:flex; flex-direction:column; gap:0; padding-top:36px; }
+    .education-item { display:grid; grid-template-columns:84px minmax(0,1fr) auto; gap:18px; align-items:center; padding:0 0 34px; min-height:132px; border-bottom:1px solid var(--color-border); }
+    .education-item + .education-item { padding-top:34px; }
+    .education-logo { width:84px; height:84px; object-fit:contain; border-radius:4px; background:rgba(255,255,255,.04); }
+    .education-school { font-size:1.2rem; font-weight:800; line-height:1.2; margin-bottom:8px; color:var(--color-text-primary); }
+    .education-major { font-size:.92rem; font-weight:650; line-height:1.45; color:rgba(240,240,238,.78); }
+    .education-period { font-size:.82rem; font-weight:700; line-height:1; color:rgba(240,240,238,.46); white-space:nowrap; }
+    .experience-work { min-width:0; }
+    .experience-work-card { background:none; border:none; padding:0; box-shadow:none; }
+    .work-company { display:flex; align-items:center; justify-content:space-between; gap:28px; margin-bottom:20px; }
+    .work-company-name { font-size:clamp(1.25rem,2vw,1.55rem); font-weight:800; line-height:1.2; color:var(--color-text-primary); }
+    .work-company-logo { width:clamp(170px,19vw,246px); height:auto; object-fit:contain; flex-shrink:0; }
+    .work-experience { display:grid; grid-template-columns:220px minmax(0,1fr); gap:40px; align-items:start; }
+    .work-experience + .work-experience { margin-top:52px; }
+    .work-role-title { font-size:1.1rem; font-weight:800; line-height:1.25; margin-bottom:16px; color:var(--color-text-primary); }
+    .work-period { font-size:.95rem; font-weight:750; color:rgba(240,240,238,.66); letter-spacing:.01em; }
+    .work-points { display:flex; flex-direction:column; gap:22px; }
+    .work-point { position:relative; padding-left:20px; font-size:.95rem; line-height:1.75; color:rgba(240,240,238,.74); }
+    .work-point::before { content:''; position:absolute; left:0; top:.74em; width:7px; height:7px; background:#6672d8; box-shadow:0 0 14px rgba(102,114,216,.35); }
+    .work-point strong { color:var(--color-text-primary); font-weight:800; }
+
+    /* EXPERTISE */
+    #expertise { border-top:1px solid var(--color-border); }
+    .expertise-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--color-border); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:visible; }
+    .expertise-card { background:var(--color-bg-card); padding:clamp(22px,2.5vw,36px); transition:background var(--duration-base) var(--ease-out); position:relative; cursor:default; }
+    .expertise-card:hover { background:var(--color-bg-elevated); }
+    .expertise-card:first-child { border-radius:var(--radius-lg) 0 0 var(--radius-lg); }
+    .expertise-card:last-child  { border-radius:0 var(--radius-lg) var(--radius-lg) 0; }
+    .expertise-icon { width:72px; height:72px; border-radius:var(--radius-sm); background:none; border:none; display:flex; align-items:center; justify-content:center; margin-bottom:18px; } .expertise-icon img { width:100%; height:100%; object-fit:contain; }
+    .expertise-title { font-size:.95rem; font-weight:600; margin-bottom:14px; }
+    .expertise-list { display:flex; flex-direction:column; gap:7px; margin-bottom:18px; }
+    .expertise-list li { font-size:.8rem; color:var(--color-text-secondary); display:flex; align-items:flex-start; gap:8px; }
+    .expertise-list li::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--color-text-tertiary); flex-shrink:0; margin-top:6px; }
+    .expertise-tools { display:flex; flex-wrap:wrap; gap:5px; padding-top:14px; border-top:1px solid var(--color-border); }
+    .tool-tag { padding:3px 10px; border-radius:var(--radius-full); font-size:.7rem; font-weight:500; font-family:var(--font-mono); color:var(--color-text-tertiary); border:1px solid var(--color-border); background:var(--color-bg); }
+
+    /* Gallery slideshow hover */
+    .expertise-gallery {
+      position: absolute;
+      left: 0;
+      width: 500px;
+      bottom: calc(100% + 12px);
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .28s var(--ease-out), transform .28s var(--ease-out);
+      z-index: 50;
+      box-shadow: 0 -12px 48px rgba(0,0,0,.6);
+    }
+    /* 中间卡片水平居中 */
+    .expertise-card:nth-child(2) .expertise-gallery {
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+    }
+    .expertise-card:nth-child(2):hover .expertise-gallery {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* 最右侧卡片右对齐 */
+    .expertise-card:last-child .expertise-gallery { left: auto; right: 0; }
+    .expertise-card:hover .expertise-gallery { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+    /* Slideshow image area */
+    .slideshow-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--color-bg-card);
+      overflow: hidden;
+    }
+    .slideshow-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .5s ease;
+      display: block;
+    }
+    .slideshow-wrap img.slide-active { opacity: 1; }
+    .slideshow-empty {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .slideshow-empty-icon { font-size: 1.4rem; opacity: .3; }
+    .slideshow-empty-text { font-size: .68rem; color: var(--color-text-tertiary); font-family: var(--font-mono); }
+
+    /* Slideshow footer: dots + counter */
+    .slideshow-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-top: 1px solid var(--color-border);
+    }
+    .slideshow-dots { display: flex; gap: 5px; align-items: center; }
+    .slideshow-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--color-text-tertiary);
+      transition: background .3s, transform .3s;
+    }
+    .slideshow-dot.active {
+      background: var(--color-accent);
+      transform: scale(1.4);
+    }
+    .slideshow-counter {
+      font-size: .65rem;
+      font-family: var(--font-mono);
+      color: var(--color-text-tertiary);
+    }
+    /* Progress bar */
+    .slideshow-progress {
+      height: 2px;
+      background: var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+    .slideshow-progress-bar {
+      height: 100%;
+      background: var(--color-accent);
+      width: 0%;
+      transition: width linear;
+    }
+
+    /* WORK */
+    #work { border-top:1px solid var(--color-border); }
+    .work-list { display:flex; flex-direction:column; gap:1px; background:var(--color-border); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden; }
+    .work-card { display:grid; grid-template-columns:1fr 1fr; align-items:stretch; background:var(--color-bg-card); box-shadow:inset 3px 0 0 transparent; transition:background var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out); cursor:pointer; }
+    .work-card:hover { background:var(--color-bg-elevated); }
+    .work-card:nth-child(even) { direction:rtl; box-shadow:inset -3px 0 0 transparent; }
+    .work-card:nth-child(even) .work-left, .work-card:nth-child(even) .work-content { direction:ltr; }
+    .work-card:nth-child(1):hover { box-shadow:inset 3px 0 0 var(--color-accent); }
+    .work-card:nth-child(1):hover .work-number { color:var(--color-accent); }
+    .work-card:nth-child(2):hover { box-shadow:inset -3px 0 0 var(--color-status-green); }
+    .work-card:nth-child(2):hover .work-number { color:var(--color-status-green); }
+    .work-card:nth-child(3):hover { box-shadow:inset 3px 0 0 var(--color-accent-warm); }
+    .work-card:nth-child(3):hover .work-number { color:var(--color-accent-warm); }
+    .work-left { display:flex; flex-direction:column; }
+    .work-visual { background:var(--color-bg-elevated); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; aspect-ratio:16/9; width:100%; }
+    .work-visual img { transition:transform 0.65s var(--ease-out), opacity var(--duration-base) var(--ease-out); }
+    .work-card:hover .work-visual img { transform:scale(1.04); }
+    .work-placeholder { width:100%; height:100%; background:linear-gradient(90deg, var(--color-bg-elevated) 25%, rgba(255,255,255,.04) 50%, var(--color-bg-elevated) 75%); background-size:200% 100%; animation:shimmer 2s infinite; display:flex; align-items:center; justify-content:center; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .work-placeholder-text { font-size:.72rem; color:var(--color-text-tertiary); font-family:var(--font-mono); }
+    .work-content { padding:clamp(24px,3.5vw,44px) clamp(24px,3.5vw,44px) 18px; display:flex; flex-direction:column; justify-content:flex-start; }
+    .work-number { font-family:var(--font-mono); font-size:.7rem; color:var(--color-text-tertiary); letter-spacing:.1em; margin-bottom:14px; transition:color var(--duration-base) var(--ease-out); }
+    .work-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+    .work-title { font-size:clamp(1.1rem,2.5vw,1.5rem); font-weight:700; line-height:1.25; letter-spacing:-.02em; margin-bottom:10px; color:var(--color-text-primary); transition:color var(--duration-base) var(--ease-out); }
+    .work-card:hover .work-title { color:#ffffff; }
+    .work-desc { font-size:.865rem; color:var(--color-text-secondary); line-height:1.75; margin-bottom:24px; }
+    .work-metrics { display:flex; gap:24px; padding:18px 0 0; border-top:1px solid var(--color-border); }
+    .metric { display:flex; flex-direction:column; gap:4px; }
+    .metric-value { font-size:1.25rem; font-weight:700; color:var(--color-accent-warm); font-family:var(--font-mono); letter-spacing:-.02em; display:inline-block; }
+    @keyframes metricFlipIn {
+      from { transform:translateY(55%); opacity:0; filter:blur(3px); }
+      to   { transform:translateY(0);   opacity:1; filter:blur(0); }
+    }
+    .metric-value.flip-in { animation:metricFlipIn 0.6s var(--ease-out) both; }
+    .work-card:nth-child(1) .metric-value { color:var(--color-accent); }
+    .work-card:nth-child(2) .metric-value { color:var(--color-status-green); }
+    .metric-label { font-size:.7rem; color:var(--color-text-secondary); }
+    .work-cta { display:flex; align-items:center; gap:8px; font-size:.865rem; font-weight:500; color:var(--color-text-secondary); padding:18px clamp(20px,3vw,36px); border-top:1px solid var(--color-border); transition:color var(--duration-fast), gap var(--duration-base) var(--ease-out); }
+    .work-card:hover .work-cta { color:var(--color-text-primary); gap:12px; }
+
+    /* RECOGNITION */
+    #recognition { border-top:1px solid var(--color-border); }
+    .recognition-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--color-border); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden; }
+    .recognition-card { background:var(--color-bg-card); padding:clamp(22px,3vw,38px); transition:background var(--duration-base) var(--ease-out); }
+    .recognition-card:hover { background:var(--color-bg-elevated); }
+    .recognition-year { font-family:var(--font-mono); font-size:1.8rem; font-weight:700; color:var(--color-text-tertiary); letter-spacing:-.04em; line-height:1; margin-bottom:14px; }
+    .recognition-title { font-size:.93rem; font-weight:600; margin-bottom:8px; }
+    .recognition-desc { font-size:.8rem; color:var(--color-text-secondary); line-height:1.65; }
+
+    /* CONTACT */
+    #contact { border-top:1px solid var(--color-border); text-align:center; }
+    .contact-inner { max-width:600px; margin-inline:auto; }
+    .contact-heading { margin-bottom:14px; }
+    .contact-sub { margin-bottom:40px; font-size:.975rem; color:var(--color-text-secondary); line-height:1.75; }
+    .contact-links { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+    .contact-wechat { font-size:.8rem; color:var(--color-text-tertiary); font-family:var(--font-mono); }
+    .qa-module { margin-top:52px; padding-top:36px; border-top:1px solid var(--color-border); text-align:left; }
+    .qa-label { text-align:center; margin-bottom:20px; }
+    .qa-questions { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .qa-btn { padding:8px 18px; border-radius:var(--radius-full); font-size:.8rem; font-weight:500; border:1px solid var(--color-border-strong); background:var(--color-bg-card); color:var(--color-text-secondary); cursor:pointer; transition:all var(--duration-base) var(--ease-out); }
+    .qa-btn:hover, .qa-btn.active { border-color:rgba(79,158,255,.4); color:var(--color-accent); background:var(--color-accent-dim); }
+    .qa-answer { max-height:0; overflow:hidden; opacity:0; margin-top:0; transition:max-height var(--duration-slow) var(--ease-out), opacity var(--duration-slow) var(--ease-out), margin var(--duration-slow) var(--ease-out); }
+    .qa-answer.open { max-height:200px; opacity:1; margin-top:18px; }
+    .qa-bubble { background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:0 var(--radius-lg) var(--radius-lg) var(--radius-lg); padding:14px 18px; font-size:.855rem; color:var(--color-text-secondary); line-height:1.75; font-family:var(--font-mono); display:inline-block; max-width:460px; }
+
+    footer { border-top:1px solid var(--color-border); padding-block:26px; }
+    .footer-inner { display:flex; align-items:center; justify-content:space-between; }
+    .footer-copy { font-size:.75rem; color:var(--color-text-tertiary); }
+    .footer-built { font-size:.75rem; color:var(--color-text-tertiary); display:flex; align-items:center; gap:5px; }
+    .footer-built span { color:var(--color-accent); }
+
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:.1s; }
+    .reveal-delay-2 { transition-delay:.2s; }
+    .reveal-delay-3 { transition-delay:.3s; }
+    .reveal-delay-4 { transition-delay:.4s; }
+
+    /* PROJECT DETAIL */
+    #project-detail { position:fixed; inset:0; z-index:180; background:var(--color-bg); overflow-y:auto; display:none; opacity:0; transition:opacity .3s var(--ease-out); }
+    #project-detail.pd-active { opacity:1; }
+    #project-detail[data-project="1"] .tag--accent { border-color:rgba(34,197,94,.3); color:var(--color-status-green); background:rgba(34,197,94,.08); }
+    #project-detail[data-project="2"] .tag--accent { border-color:rgba(255,112,67,.3); color:var(--color-accent-warm); background:rgba(255,112,67,.08); }
+    .pd-topbar { position:sticky; top:0; z-index:10; background:rgba(10,10,10,.88); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid var(--color-border); padding:14px 0; }
+    .pd-topbar-inner { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .pd-back { background:none; border:none; color:var(--color-text-secondary); font:inherit; font-size:.865rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; padding:4px 0; transition:color var(--duration-fast); flex-shrink:0; }
+    .pd-back:hover { color:var(--color-text-primary); }
+    .pd-back svg { width:16px; height:16px; }
+    .pd-topbar-num { font-family:var(--font-mono); font-size:.7rem; color:var(--color-text-tertiary); letter-spacing:.1em; }
+    /* 项目切换 tab */
+    .pd-tabs { display:flex; align-items:center; gap:3px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.13); border-radius:9px; padding:3px; }
+    .pd-tab { background:none; border:none; font:inherit; font-size:.82rem; font-weight:500; color:#909090; padding:6px 16px; border-radius:6px; cursor:pointer; transition:color .18s var(--ease-out), background .18s var(--ease-out); letter-spacing:.01em; white-space:nowrap; }
+    .pd-tab:hover { color:#d0d0d0; background:rgba(255,255,255,.07); }
+    .pd-tab.active { background:rgba(255,255,255,.14); color:#ffffff; box-shadow:0 1px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1); font-weight:600; }
+    .pd-hero { padding:52px 0 40px; border-bottom:1px solid var(--color-border); }
+    .pd-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+    .pd-title { font-size:clamp(1.6rem,4vw,2.6rem); font-weight:700; letter-spacing:-.03em; line-height:1.15; margin-bottom:16px; }
+    .pd-desc { font-size:.93rem; color:var(--color-text-secondary); line-height:1.85; max-width:620px; }
+    .pd-body { padding:48px 0 100px; }
+    .pd-gallery { display:flex; flex-direction:column; gap:2px; }
+    .pd-gallery-img { width:100%; display:block; border-radius:0; }
+    .pd-gallery-img:first-child { border-radius:var(--radius-md) var(--radius-md) 0 0; }
+    .pd-gallery-img:last-child { border-radius:0 0 var(--radius-md) var(--radius-md); }
+    .pd-gallery-img:only-child { border-radius:var(--radius-md); }
+    .pd-empty { text-align:center; padding:100px 20px; font-family:var(--font-mono); font-size:.8rem; color:var(--color-text-tertiary); letter-spacing:.04em; }
+
+    @media (max-width:900px) {
+      .hero-grid { grid-template-columns:1fr; }
+      .hero-photo-wrap { max-width:260px; margin-inline:auto; order:-1; }
+      .experience-layout { grid-template-columns:1fr; gap:44px; }
+      .experience-education { padding-right:0; border-right:0; }
+      .experience-title { margin-bottom:32px; }
+      .work-company { align-items:flex-start; }
+      .work-experience { grid-template-columns:1fr; gap:20px; }
+      .expertise-grid { grid-template-columns:1fr; }
+      .expertise-card:first-child { border-radius:var(--radius-lg) var(--radius-lg) 0 0; }
+      .expertise-card:last-child  { border-radius:0 0 var(--radius-lg) var(--radius-lg); }
+      .expertise-gallery { position:static; opacity:1; pointer-events:auto; transform:none; margin-top:16px; border:1px solid var(--color-border); }
+      .work-visual { aspect-ratio:16/9; }
+      .recognition-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:768px) {
+      .nav-links { display:none; }
+      .nav-menu-btn { display:flex; }
+      .footer-inner { flex-direction:column; gap:8px; text-align:center; }
+      .education-item { grid-template-columns:64px minmax(0,1fr); gap:16px; min-height:auto; padding-bottom:24px; }
+      .education-item + .education-item { padding-top:24px; }
+      .education-logo { width:64px; height:64px; }
+      .education-period { grid-column:2; margin-top:-4px; }
+      .experience-work-card { padding:0; }
+      .work-company { flex-direction:column; gap:18px; margin-bottom:34px; }
+      .work-company-logo { width:190px; }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/design-system.css?v=linear-modern-2">
+</head>
+<body style="">
+
+  <nav id="nav" class="scrolled">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo">陈昊烨的个人网站</a>
+        <ul class="nav-links">
+          <li><a href="#about" class="nav-link">个人经历</a></li>
+          <li><a href="#expertise" class="nav-link">专业技能</a></li>
+          <li><a href="#work" class="nav-link">作品展示</a></li>
+        </ul>
+        <div class="nav-right">
+          <a href="#contact" class="nav-contact-link">联系方式</a>
+          <button class="nav-menu-btn" aria-label="菜单"><span></span><span></span><span></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile nav panel -->
+  <div class="mobile-nav-panel" id="mobile-nav-panel">
+    <a href="#about"     class="nav-link" onclick="closeMobileNav()">个人经历</a>
+    <a href="#expertise" class="nav-link" onclick="closeMobileNav()">专业技能</a>
+    <a href="#work"      class="nav-link" onclick="closeMobileNav()">作品展示</a>
+    <a href="#contact"   class="nav-link" onclick="closeMobileNav()">联系方式</a>
+  </div>
+
+  <section id="hero" class="section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <p class="hero-kicker reveal visible" id="hero-type-kicker" data-type-text="Hello, I'm Charlie,and this is"></p>
+          <h1 class="text-display hero-title">
+            <span class="line reveal reveal-delay-1 visible" id="hero-type-title" data-type-text="My Portfolio"></span>
+          </h1>
+          <p class="text-body hero-subtitle reveal reveal-delay-3 visible" id="hero-type-subtitle" data-type-text="用设计驱动业务增长，用AI重塑设计工作流。">
+          </p>
+          <div class="hero-cta reveal reveal-delay-4 visible">
+            <a href="#work" class="btn btn--primary">查看项目案例 →</a>
+            <a href="resume.pdf" target="_blank" class="btn btn--ghost">查看简历 ↗</a>
+          </div>
+        </div>
+
+        <div class="hero-photo-wrap reveal reveal-delay-2 visible">
+          <img id="hero-img" src="assets/images/hero-portrait.jpg" alt="陈昊烨 · Charlie" class="hero-photo">
+          <div class="hero-photo-placeholder" id="hero-ph" style="display:none;">
+            <div class="ph-icon">👤</div>
+            <p class="ph-text">// 将照片存为<br>avatar.jpg 放入此文件夹</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator"><span>Scroll</span></div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-label reveal visible"><span class="text-label">个人经历</span></div>
+      <div class="experience-layout reveal visible">
+        <div class="experience-education">
+          <h2 class="experience-title">教育经历</h2>
+          <div class="education-list">
+            <div class="education-item">
+              <img class="education-logo" src="assets/images/experience-rca-logo.png" alt="Royal College of Art logo">
+              <div>
+                <div class="education-school">皇家艺术学院</div>
+                <div class="education-major">服务设计 / 硕士<br>国家全额奖学金</div>
+              </div>
+              <div class="education-period">2021 – 2023</div>
+            </div>
+            <div class="education-item">
+              <img class="education-logo" src="assets/images/experience-lbs-logo.png" alt="London Business School logo">
+              <div>
+                <div class="education-school">伦敦商学院</div>
+                <div class="education-major">商业创新 MBA / 交换生</div>
+              </div>
+              <div class="education-period">2022 – 2023</div>
+            </div>
+            <div class="education-item">
+              <img class="education-logo" src="assets/images/experience-jiangnan-logo.png" alt="江南大学 logo">
+              <div>
+                <div class="education-school">江南大学</div>
+                <div class="education-major">服装设计与工程 / 本科</div>
+              </div>
+              <div class="education-period">2017 – 2021</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="experience-work">
+          <h2 class="experience-title">工作经历</h2>
+          <div class="experience-work-card">
+            <div class="work-company">
+              <div class="work-company-heading">
+                <div class="work-company-name">阿里巴巴-企业智能事业部</div>
+                <div class="work-company-period">2023-2026</div>
+              </div>
+              <img class="work-company-logo" src="assets/images/experience-alibaba-logo.png" alt="Alibaba logo">
+            </div>
+
+            <div class="work-details-scroll">
+              <div class="work-experience">
+                <div>
+                  <div class="work-role-title">C端体验设计师</div>
+                  <div class="work-period">2024.04-至今</div>
+                </div>
+                <div class="work-points">
+                  <div class="work-point"><strong>AI县域服务平台：</strong>独立主导县域 AI 服务平台从 0 到 1 的全流程体验设计，覆盖 LUI 对话流范式定义、官网及小程序信息架构与视觉落地。</div>
+                  <div class="work-point"><strong>3小时平台用户增长设计：</strong>主导平台全链路体验优化，通过多手段用研定位体验断点，从 0 到 1 设计公益账户体系，并利用AI工具落地一系列互动玩法。</div>
+                  <div class="work-point"><strong>淘宝公益宝贝·跨端体验重构：</strong>发起 B/C 端全链路走查，重构商家权益设置链路与用户端详情展示路径，打通跨端体验断层。</div>
+                </div>
+              </div>
+
+              <div class="work-experience">
+                <div>
+                  <div class="work-role-title">B端体验设计师</div>
+                  <div class="work-period">2023.07-2024.03</div>
+                </div>
+                <div class="work-points">
+                  <div class="work-point"><strong>OKR 系统 AI 提效：</strong>负责集团内部 OKR 系统设计，推动 AI提效方案在管理者与员工两个层级的落地。</div>
+                  <div class="work-point"><strong>EHR 系统设计：</strong>负责集团 EHR 系统设计，支撑绩效移动端从 0 到 1 上线并推动与 OKR 系统融合。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="expertise" class="section">
+    <div class="container">
+      <div class="section-label reveal visible"><span class="text-label">专业技能</span></div>
+      <div class="expertise-grid">
+
+        <div class="expertise-card reveal visible">
+          <div class="expertise-icon"><img src="assets/images/icon-ux.png" alt="体验设计"></div>
+          <div class="expertise-title">体验设计</div>
+          <ul class="expertise-list">
+            <li>服务蓝图 / 用户旅程图</li>
+            <li>信息架构 &amp; 交互设计</li>
+            <li>视觉设计与原型验证</li>
+            <li>可用性测试 &amp; 设计评审</li>
+          </ul>
+          <div class="expertise-tools">
+            <span class="tool-tag">Figma</span>
+            <span class="tool-tag">Mastergo</span>
+            <span class="tool-tag">Sketch</span>
+          </div>
+          <div class="expertise-gallery" data-group="ux">
+            <div class="slideshow-progress"><div class="slideshow-progress-bar"></div></div>
+            <div class="slideshow-wrap">
+              <img id="ux-img-0" src="assets/images/ux-img-0.jpg" alt="" style="display: block;" data-uploaded="1" class="slide-active">
+              <img id="ux-img-1" src="assets/images/ux-img-1.jpg" alt="" style="display: block;" data-uploaded="1">
+              <img id="ux-img-2" src="assets/images/ux-img-2.jpg" alt="" style="display: block;" data-uploaded="1">
+              <img id="ux-img-3" src="" alt="">
+              <img id="ux-img-4" src="" alt="">
+              <div class="slideshow-empty" style="display: none;">
+                <div class="slideshow-empty-icon">🖼</div>
+                <div class="slideshow-empty-text">// 点击「添加图片」上传</div>
+              </div>
+            </div>
+            <div class="slideshow-footer">
+              <div class="slideshow-dots"><div class="slideshow-dot active"></div><div class="slideshow-dot"></div><div class="slideshow-dot"></div></div>
+              <div class="slideshow-counter">1 / 3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="expertise-card reveal reveal-delay-1 visible">
+          <div class="expertise-icon"><img src="assets/images/icon-research.png" alt="用研数据"></div>
+          <div class="expertise-title">用研 &amp; 数据</div>
+          <ul class="expertise-list">
+            <li>深访 / 圆桌 / 实地调研</li>
+            <li>埋点分析 / 漏斗分析</li>
+            <li>A/B 测试 &amp; 问卷设计</li>
+            <li>竞品分析 &amp; 数据看板</li>
+          </ul>
+          <div class="expertise-tools">
+            <span class="tool-tag">数据看板</span>
+            <span class="tool-tag">多手段调研</span>
+            <span class="tool-tag">AB测试</span>
+          </div>
+          <div class="expertise-gallery" data-group="research">
+            <div class="slideshow-progress"><div class="slideshow-progress-bar"></div></div>
+            <div class="slideshow-wrap">
+              <img id="research-img-0" src="assets/images/research-img-0.jpg" alt="" style="display: block;" data-uploaded="1" class="slide-active">
+              <img id="research-img-1" src="assets/images/research-img-1.jpg" alt="" style="display: block;" data-uploaded="1">
+              <img id="research-img-2" src="assets/images/research-img-2.jpg" alt="" style="display: block;" data-uploaded="1">
+              <img id="research-img-3" src="" alt="">
+              <img id="research-img-4" src="" alt="">
+              <div class="slideshow-empty" style="display: none;">
+                <div class="slideshow-empty-icon">🖼</div>
+                <div class="slideshow-empty-text">// 点击「添加图片」上传</div>
+              </div>
+            </div>
+            <div class="slideshow-footer">
+              <div class="slideshow-dots"><div class="slideshow-dot active"></div><div class="slideshow-dot"></div><div class="slideshow-dot"></div></div>
+              <div class="slideshow-counter">1 / 3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="expertise-card reveal reveal-delay-2 visible">
+          <div class="expertise-icon"><img src="assets/images/icon-ai.jpg" alt="AI设计工作流"></div>
+          <div class="expertise-title">AI 设计工作流</div>
+          <ul class="expertise-list">
+            <li>LUI 对话流交互范式</li>
+            <li>AI生图方法实践与分享</li>
+            <li>Vibe Coding互动玩法落地</li>
+            <li>设计Skill的封装与团队赋能</li>
+          </ul>
+          <div class="expertise-tools">
+            <span class="tool-tag">Claude Code</span>
+            <span class="tool-tag">Stable Diffusion</span>
+          </div>
+          <div class="expertise-gallery" data-group="ai">
+            <div class="slideshow-progress"><div class="slideshow-progress-bar"></div></div>
+            <div class="slideshow-wrap">
+              <img id="ai-img-0" src="assets/images/ai-img-0.jpg" alt="" style="display: block;" data-uploaded="1" class="slide-active">
+              <img id="ai-img-1" src="assets/images/ai-img-1.jpg" alt="" style="display: block;" data-uploaded="1">
+              <img id="ai-img-2" src="assets/images/ai-img-2.jpg" alt="" style="display: block;" data-uploaded="1">
+              <img id="ai-img-3" src="" alt="">
+              <img id="ai-img-4" src="" alt="">
+              <div class="slideshow-empty" style="display: none;">
+                <div class="slideshow-empty-icon">🖼</div>
+                <div class="slideshow-empty-text">// 点击「添加图片」上传</div>
+              </div>
+            </div>
+            <div class="slideshow-footer">
+              <div class="slideshow-dots"><div class="slideshow-dot active"></div><div class="slideshow-dot"></div><div class="slideshow-dot"></div></div>
+              <div class="slideshow-counter">1 / 3</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="section">
+    <div class="container">
+      <div class="section-label reveal visible"><span class="text-label">作品展示</span></div>
+      <div class="work-list">
+
+        <article class="work-card reveal visible">
+          <div class="work-left">
+            <div class="work-visual">
+              <img id="work-img-0" src="assets/images/work-img-0.jpg" alt="AI县域服务平台" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
+              <div class="work-placeholder" id="work-ph-0" style="display: none;"><span class="work-placeholder-text">// 点击「添加图片」上传封面</span></div>
+            </div>
+            <span class="work-cta">查看完整案例 <span>→</span></span>
+          </div>
+          <div class="work-content">
+            <div class="work-number">01 / 03</div>
+            <div class="work-tags">
+              <span class="tag">对话流设计</span>
+              <span class="tag tag--accent">AI 产品</span>
+              <span class="tag">Vibe Coding</span>
+            </div>
+            <h3 class="work-title">AI 县域服务平台设计</h3>
+            <p class="work-desc">主导阿里面向县域的 AI 服务平台从 0 到 1 设计落地，基于三方实地调研定义 AI 对话流交互范式，将复杂政务信息与出行服务转化为自然的对话式体验，大幅提升基层办事效率。</p>
+            <div class="work-metrics">
+              <div class="metric"><span class="metric-value" data-target="2.5" data-suffix="h">—</span><span class="metric-label">政务效率提升/人日</span></div>
+              <div class="metric"><span class="metric-value" data-target="40" data-suffix="%+">—</span><span class="metric-label">购票流程缩短</span></div>
+              <div class="metric"><span class="metric-value" data-target="10" data-suffix="+">—</span><span class="metric-label">县域落地数量</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-card reveal visible">
+          <div class="work-left">
+            <div class="work-visual">
+              <img id="work-img-1" src="assets/images/work-img-1.jpg" alt="平台用户增长设计" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
+              <div class="work-placeholder" id="work-ph-1" style="display: none;"><span class="work-placeholder-text">// 点击「添加图片」上传封面</span></div>
+            </div>
+            <span class="work-cta">查看完整案例 <span>→</span></span>
+          </div>
+          <div class="work-content">
+            <div class="work-number">02 / 03</div>
+            <div class="work-tags">
+              <span class="tag">账户体系</span>
+              <span class="tag tag--accent">用户增长</span>
+              <span class="tag">互动产品</span>
+            </div>
+            <h3 class="work-title" data-proj="1">3小时平台用户增长设计</h3>
+            <p class="work-desc">主导全链路增长体验优化，从调研定位体验断点到设计公益账户信息架构与 10 多套互动玩法，为阿里系用户构建公益行为参与、记录与展示中台。</p>
+            <div class="work-metrics">
+              <div class="metric"><span class="metric-value" data-target="18" data-prefix="-" data-suffix="%">-18%</span><span class="metric-label">首页跳失率</span></div>
+              <div class="metric"><span class="metric-value" data-target="200" data-prefix="+" data-suffix="%">—</span><span class="metric-label">模块渗透率</span></div>
+              <div class="metric"><span class="metric-value" data-target="8" data-prefix="+" data-suffix="%">—</span><span class="metric-label">全站留存</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-card reveal visible">
+          <div class="work-left">
+            <div class="work-visual">
+              <img id="work-img-2" src="assets/images/work-img-2.jpg" alt="公益宝贝体验重构" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
+              <div class="work-placeholder" id="work-ph-2" style="display: none;"><span class="work-placeholder-text">// 点击「添加图片」上传封面</span></div>
+            </div>
+            <span class="work-cta">查看完整案例 <span>→</span></span>
+          </div>
+          <div class="work-content">
+            <div class="work-number">03 / 03</div>
+            <div class="work-tags">
+              <span class="tag">B/C双端</span>
+              <span class="tag tag--accent">电商体验重构</span>
+              <span class="tag">公益宝贝</span>
+            </div>
+            <h3 class="work-title">淘宝公益宝贝体验优化</h3>
+            <p class="work-desc">发起 B/C 端全链路走查，重构商家设置链路与用户端公益感知路径，打通双端体验断点，让公益行为真正融入用户日常购物决策。</p>
+            <div class="work-metrics">
+              <div class="metric"><span class="metric-value" data-target="11" data-prefix="+" data-suffix="%">+11%</span><span class="metric-label">商家设置转化</span></div>
+              <div class="metric"><span class="metric-value" data-target="9" data-prefix="-" data-suffix="%">-9%</span><span class="metric-label">用户跳失率</span></div>
+              <div class="metric"><span class="metric-value" data-target="14.4" data-prefix="+" data-suffix="%">+14.4%</span><span class="metric-label">次日留存</span></div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="contact-inner">
+        <h2 class="text-headline contact-heading reveal">有想法要聊？</h2>
+        <p class="contact-sub reveal reveal-delay-1">无论是职位机会、设计合作，还是对 AI 设计的探讨，都欢迎联系。</p>
+        <div class="contact-info-row reveal reveal-delay-2">
+          <div class="contact-info-item">
+            <span class="contact-info-label">微信&thinsp;/&thinsp;Tel</span>
+            <span class="contact-info-value">13913096288</span>
+            <button class="contact-copy-btn" onclick="copyContact('13913096288',this)" title="复制"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M4 11H3a2 2 0 01-2-2V3a2 2 0 012-2h6a2 2 0 012 2v1"/></svg></button>
+          </div>
+          <div class="contact-info-item">
+            <span class="contact-info-label">Email</span>
+            <span class="contact-info-value">chenhaoye2021a@163.com</span>
+            <button class="contact-copy-btn" onclick="copyContact('chenhaoye2021a@163.com',this)" title="复制"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M4 11H3a2 2 0 01-2-2V3a2 2 0 012-2h6a2 2 0 012 2v1"/></svg></button>
+          </div>
+        </div>
+        <div class="qa-module reveal reveal-delay-4">
+          <p class="text-label qa-label">// 快速了解我</p>
+          <div class="qa-questions">
+            <button class="qa-btn" data-q="0">擅长什么类型的项目？</button>
+            <button class="qa-btn" data-q="1">工作方式是怎样的？</button>
+            <button class="qa-btn" data-q="2">如何将 AI 用于设计？</button>
+          </div>
+          <div class="qa-answer" id="qa-answer">
+            <div class="qa-bubble" id="qa-bubble-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="footer-tagline-section">
+    <div class="container">
+      <p class="footer-tagline">
+        <span id="tagline-text1"></span><span id="tagline-text2" class="tagline-ai"></span><span class="tagline-cursor" id="tagline-cursor"></span>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-copy">2026 陈昊烨 Charlie</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       BUILT-IN IMAGE EDITOR
+       按 Alt+E 打开 / 关闭图片管理面板
+  ============================================================ -->
+  <style>
+    /* Editor panel */
+    #img-editor {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(12px);
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+    #img-editor.open { display: block; }
+    .editor-panel {
+      max-width: 780px;
+      margin-inline: auto;
+      background: #111;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .editor-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      position: sticky;
+      top: -32px;
+      background: #111;
+      z-index: 10;
+      margin-top: -32px;
+      padding-top: 32px;
+      border-radius: 16px 16px 0 0;
+    }
+    .editor-title { font-size: 1rem; font-weight: 600; }
+    .editor-subtitle { font-size: .78rem; color: #666; margin-top: 4px; }
+    .editor-close {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: none;
+      color: #888;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .editor-close:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+    .editor-section { margin-bottom: 28px; }
+    .editor-section-title {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #4f9eff;
+      margin-bottom: 14px;
+    }
+    .editor-slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    .editor-slot {
+      border: 1.5px dashed rgba(255,255,255,.15);
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      position: relative;
+      cursor: pointer;
+      transition: border-color .2s;
+      background: #0d0d0d;
+    }
+    .editor-slot:hover { border-color: rgba(79,158,255,.5); }
+    .editor-slot.has-img { border-style: solid; border-color: rgba(79,158,255,.4); }
+    .editor-slot img { width:100%; height:100%; object-fit:cover; display:block; }
+    .editor-slot-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,.8));
+      padding: 12px 8px 8px;
+      font-size: .65rem;
+      color: #aaa;
+      text-align: center;
+    }
+    .editor-slot-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 6px;
+      opacity: 0;
+      background: rgba(79,158,255,.15);
+      transition: opacity .2s;
+    }
+    .editor-slot:hover .editor-slot-overlay { opacity: 1; }
+    .editor-slot.has-img .editor-slot-overlay { background: rgba(0,0,0,.5); }
+    .editor-slot-overlay-icon { font-size: 1.3rem; }
+    .editor-slot-overlay-text { font-size: .68rem; color: #4f9eff; font-weight: 500; }
+    .editor-slot input[type=file] { display: none; }
+
+    /* Avatar slot special */
+    .editor-slot.avatar-slot { aspect-ratio: 3/4; }
+
+    .editor-actions {
+      display: flex;
+      gap: 12px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      flex-wrap: wrap;
+    }
+    .editor-btn {
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: .875rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all .2s;
+    }
+    .editor-btn--export {
+      background: #f0f0ee;
+      color: #0a0a0a;
+    }
+    .editor-btn--export:hover { background: #d0d0cc; }
+    .editor-btn--clear {
+      background: transparent;
+      border-color: rgba(255,255,255,.15);
+      color: #888;
+    }
+    .editor-btn--clear:hover { color: #fff; border-color: rgba(255,255,255,.3); }
+    .editor-btn--deploy {
+      background: linear-gradient(135deg, #5E6AD2 0%, #4a56c4 100%);
+      color: #fff;
+      border: 1px solid rgba(94,106,210,0.4);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .editor-btn--deploy:hover { background: linear-gradient(135deg, #6e7de0 0%, #5a66d4 100%); }
+    .editor-hint { font-size: .75rem; color: #555; line-height: 1.6; margin-top: 16px; }
+  </style>
+
+  <!-- PROJECT DETAIL PAGE -->
+  <div id="project-detail" data-project="2" class="" style="display: none;">
+    <div class="pd-topbar">
+      <div class="container">
+        <div class="pd-topbar-inner">
+          <button class="pd-back" onclick="closeProject()">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"></path></svg>
+            返回首页
+          </button>
+          <div class="pd-tabs">
+            <button class="pd-tab" data-idx="0" onclick="openProject(0)">AI创新</button>
+            <button class="pd-tab" data-idx="1" onclick="openProject(1)">3小时平台</button>
+            <button class="pd-tab" data-idx="2" onclick="openProject(2)">公益宝贝</button>
+          </div>
+          <span id="pd-num" class="pd-topbar-num">03 / 03</span>
+        </div>
+      </div>
+    </div>
+    <div class="pd-hero">
+      <div class="container">
+        <div id="pd-tags" class="pd-tags"><span class="tag">B/C双端</span><span class="tag tag--accent">电商体验重构</span><span class="tag">公益宝贝</span></div>
+        <h1 id="pd-title" class="pd-title">淘宝公益宝贝体验优化</h1>
+        <p id="pd-desc" class="pd-desc">发起 B/C 端全链路走查，重构商家设置链路与用户端公益感知路径，打通双端体验断点，让公益行为真正融入用户日常购物决策。</p>
+        <div id="pd-sub-tabs" class="pd-sub-tabs" style="display:none">
+          <button class="pd-sub-tab active" data-sub="0" onclick="switchSubTab(0)">AI县域平台设计</button>
+          <button class="pd-sub-tab" data-sub="1" onclick="switchSubTab(1)">OKR × AI提效工具</button>
+          <button class="pd-sub-tab" data-sub="2" onclick="switchSubTab(2)">AI设计工作流探索</button>
+        </div>
+      </div>
+    </div>
+    <div class="pd-body">
+      <div class="container">
+        <div id="pd-gallery" class="pd-gallery" style=""></div>
+        <div id="pd-empty" class="pd-empty" style="display: none;">// 暂无案例图片，请通过右下角「添加图片」上传</div>
+      </div>
+    </div>
+    <!-- 项目详情图片存储（随页面导出，每项目最多20张） -->
+    <img id="pd-img-0-0" src="" style="display:none"><img id="pd-img-0-1" src="" style="display:none"><img id="pd-img-0-2" src="" style="display:none"><img id="pd-img-0-3" src="" style="display:none"><img id="pd-img-0-4" src="" style="display:none">
+    <img id="pd-img-0-5" src="" style="display:none"><img id="pd-img-0-6" src="" style="display:none"><img id="pd-img-0-7" src="" style="display:none"><img id="pd-img-0-8" src="" style="display:none"><img id="pd-img-0-9" src="" style="display:none">
+    <img id="pd-img-0-10" src="" style="display:none"><img id="pd-img-0-11" src="" style="display:none"><img id="pd-img-0-12" src="" style="display:none"><img id="pd-img-0-13" src="" style="display:none"><img id="pd-img-0-14" src="" style="display:none">
+    <img id="pd-img-0-15" src="" style="display:none"><img id="pd-img-0-16" src="" style="display:none"><img id="pd-img-0-17" src="" style="display:none"><img id="pd-img-0-18" src="" style="display:none"><img id="pd-img-0-19" src="" style="display:none">
+    <img id="pd-img-1-0" src="assets/images/pd-img-1-0.jpg" style="display:none" data-src="assets/images/pd-img-1-0.jpg" data-uploaded="1"><img id="pd-img-1-1" src="assets/images/pd-img-1-1.jpg" style="display:none" data-src="assets/images/pd-img-1-1.jpg" data-uploaded="1"><img id="pd-img-1-2" src="assets/images/pd-img-1-2.jpg" style="display:none" data-src="assets/images/pd-img-1-2.jpg" data-uploaded="1"><img id="pd-img-1-3" src="assets/images/pd-img-1-3.jpg" style="display:none" data-src="assets/images/pd-img-1-3.jpg" data-uploaded="1"><img id="pd-img-1-4" src="assets/images/pd-img-1-4.jpg" style="display:none" data-src="assets/images/pd-img-1-4.jpg" data-uploaded="1">
+    <img id="pd-img-1-5" src="assets/images/pd-img-1-5.jpg" style="display:none" data-src="assets/images/pd-img-1-5.jpg" data-uploaded="1"><img id="pd-img-1-6" src="assets/images/pd-img-1-6.jpg" style="display:none" data-src="assets/images/pd-img-1-6.jpg" data-uploaded="1"><img id="pd-img-1-7" src="assets/images/pd-img-1-7.jpg" style="display:none" data-src="assets/images/pd-img-1-7.jpg" data-uploaded="1"><img id="pd-img-1-8" src="assets/images/pd-img-1-8.jpg" style="display:none" data-src="assets/images/pd-img-1-8.jpg" data-uploaded="1"><img id="pd-img-1-9" src="assets/images/pd-img-1-9.jpg" style="display:none" data-src="assets/images/pd-img-1-9.jpg" data-uploaded="1">
+    <img id="pd-img-1-10" src="assets/images/pd-img-1-10.jpg" style="display:none" data-src="assets/images/pd-img-1-10.jpg" data-uploaded="1"><img id="pd-img-1-11" src="assets/images/pd-img-1-11.jpg" style="display:none" data-src="assets/images/pd-img-1-11.jpg" data-uploaded="1"><img id="pd-img-1-12" src="assets/images/pd-img-1-12.jpg" style="display:none" data-src="assets/images/pd-img-1-12.jpg" data-uploaded="1"><img id="pd-img-1-13" src="assets/images/pd-img-1-13.jpg" style="display:none" data-src="assets/images/pd-img-1-13.jpg" data-uploaded="1"><img id="pd-img-1-14" src="assets/images/pd-img-1-14.jpg" style="display:none" data-src="assets/images/pd-img-1-14.jpg" data-uploaded="1">
+    <img id="pd-img-1-15" src="assets/images/pd-img-1-15.jpg" style="display:none" data-src="assets/images/pd-img-1-15.jpg" data-uploaded="1"><img id="pd-img-1-16" src="assets/images/pd-img-1-16.jpg" style="display:none" data-src="assets/images/pd-img-1-16.jpg" data-uploaded="1"><img id="pd-img-1-17" src="" style="display:none"><img id="pd-img-1-18" src="" style="display:none"><img id="pd-img-1-19" src="" style="display:none">
+    <img id="pd-img-2-0" src="assets/images/pd-img-2-0.jpg" style="display:none" data-src="assets/images/pd-img-2-0.jpg" data-uploaded="1"><img id="pd-img-2-1" src="assets/images/pd-img-2-1.jpg" style="display:none" data-src="assets/images/pd-img-2-1.jpg" data-uploaded="1"><img id="pd-img-2-2" src="assets/images/pd-img-2-2.jpg" style="display:none" data-src="assets/images/pd-img-2-2.jpg" data-uploaded="1"><img id="pd-img-2-3" src="assets/images/pd-img-2-3.jpg" style="display:none" data-src="assets/images/pd-img-2-3.jpg" data-uploaded="1"><img id="pd-img-2-4" src="assets/images/pd-img-2-4.jpg" style="display:none" data-src="assets/images/pd-img-2-4.jpg" data-uploaded="1">
+    <img id="pd-img-2-5" src="assets/images/pd-img-2-5.jpg" style="display:none" data-src="assets/images/pd-img-2-5.jpg" data-uploaded="1"><img id="pd-img-2-6" src="assets/images/pd-img-2-6.jpg" style="display:none" data-src="assets/images/pd-img-2-6.jpg" data-uploaded="1"><img id="pd-img-2-7" src="assets/images/pd-img-2-7.jpg" style="display:none" data-src="assets/images/pd-img-2-7.jpg" data-uploaded="1"><img id="pd-img-2-8" src="assets/images/pd-img-2-8.jpg" style="display:none" data-src="assets/images/pd-img-2-8.jpg" data-uploaded="1"><img id="pd-img-2-9" src="assets/images/pd-img-2-9.jpg" style="display:none" data-src="assets/images/pd-img-2-9.jpg" data-uploaded="1">
+    <img id="pd-img-2-10" src="assets/images/pd-img-2-10.jpg" style="display:none" data-src="assets/images/pd-img-2-10.jpg" data-uploaded="1"><img id="pd-img-2-11" src="assets/images/pd-img-2-11.jpg" style="display:none" data-src="assets/images/pd-img-2-11.jpg" data-uploaded="1"><img id="pd-img-2-12" src="assets/images/pd-img-2-12.jpg" style="display:none" data-src="assets/images/pd-img-2-12.jpg" data-uploaded="1"><img id="pd-img-2-13" src="" style="display:none"><img id="pd-img-2-14" src="" style="display:none">
+    <img id="pd-img-2-15" src="" style="display:none"><img id="pd-img-2-16" src="" style="display:none"><img id="pd-img-2-17" src="" style="display:none"><img id="pd-img-2-18" src="" style="display:none"><img id="pd-img-2-19" src="" style="display:none">
+    <!-- AI创新子tab 0b: OKR×AI提效工具 -->
+    <img id="pd-img-0b-0" src="" style="display:none"><img id="pd-img-0b-1" src="" style="display:none"><img id="pd-img-0b-2" src="" style="display:none"><img id="pd-img-0b-3" src="" style="display:none"><img id="pd-img-0b-4" src="" style="display:none"><img id="pd-img-0b-5" src="" style="display:none"><img id="pd-img-0b-6" src="" style="display:none"><img id="pd-img-0b-7" src="" style="display:none"><img id="pd-img-0b-8" src="" style="display:none"><img id="pd-img-0b-9" src="" style="display:none">
+    <!-- AI创新子tab 0c: AI设计工作流探索 -->
+    <img id="pd-img-0c-0" src="" style="display:none"><img id="pd-img-0c-1" src="" style="display:none"><img id="pd-img-0c-2" src="" style="display:none"><img id="pd-img-0c-3" src="" style="display:none"><img id="pd-img-0c-4" src="" style="display:none"><img id="pd-img-0c-5" src="" style="display:none"><img id="pd-img-0c-6" src="" style="display:none"><img id="pd-img-0c-7" src="" style="display:none"><img id="pd-img-0c-8" src="" style="display:none"><img id="pd-img-0c-9" src="" style="display:none">
+  </div>
+
+  <!-- Editor panel -->
+  <div id="img-editor">
+    <div class="editor-panel">
+      <div class="editor-header">
+        <div>
+          <div class="editor-title">图片管理</div>
+          <div class="editor-subtitle">点击各图片槽选择图片，完成后点击「导出完整网站」</div>
+        </div>
+        <button class="editor-close" onclick="document.getElementById('img-editor').classList.remove('open')">✕</button>
+      </div>
+
+      <!-- 个人照片 -->
+      <div class="editor-section">
+        <div class="editor-section-title">Hero · 个人照片</div>
+        <div class="editor-slots">
+          <div class="editor-slot avatar-slot" onclick="this.querySelector('input').click()" id="slot-avatar">
+            <img id="slot-avatar-preview" src="" style="display:none">
+            <div class="editor-slot-label">avatar · 个人照片</div>
+            <div class="editor-slot-overlay">
+              <div class="editor-slot-overlay-icon">＋</div>
+              <div class="editor-slot-overlay-text">选择照片</div>
+            </div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'hero-img','slot-avatar')">
+          </div>
+        </div>
+      </div>
+
+      <!-- 体验设计 -->
+      <div class="editor-section">
+        <div class="editor-section-title">专业技能 · 体验设计（最多5张）</div>
+        <div class="editor-slots" id="slots-ux">
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ux-0">
+            <img id="slot-ux-0-preview" src="assets/images/ux-img-0.jpg" style="display: block;">
+            <div class="editor-slot-label">ux · 第1张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ux-img-0','slot-ux-0')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ux-1">
+            <img id="slot-ux-1-preview" src="assets/images/ux-img-1.jpg" style="display: block;">
+            <div class="editor-slot-label">ux · 第2张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ux-img-1','slot-ux-1')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ux-2">
+            <img id="slot-ux-2-preview" src="assets/images/ux-img-2.jpg" style="display: block;">
+            <div class="editor-slot-label">ux · 第3张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ux-img-2','slot-ux-2')">
+          </div>
+          <div class="editor-slot" onclick="this.querySelector('input').click()" id="slot-ux-3">
+            <img id="slot-ux-3-preview" src="" style="display:none">
+            <div class="editor-slot-label">ux · 第4张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ux-img-3','slot-ux-3')">
+          </div>
+          <div class="editor-slot" onclick="this.querySelector('input').click()" id="slot-ux-4">
+            <img id="slot-ux-4-preview" src="" style="display:none">
+            <div class="editor-slot-label">ux · 第5张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ux-img-4','slot-ux-4')">
+          </div>
+        </div>
+      </div>
+
+      <!-- 用研 & 数据 -->
+      <div class="editor-section">
+        <div class="editor-section-title">专业技能 · 用研 &amp; 数据（最多5张）</div>
+        <div class="editor-slots">
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-research-0">
+            <img id="slot-research-0-preview" src="assets/images/research-img-0.jpg" style="display: block;">
+            <div class="editor-slot-label">research · 第1张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'research-img-0','slot-research-0')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-research-1">
+            <img id="slot-research-1-preview" src="assets/images/research-img-1.jpg" style="display: block;">
+            <div class="editor-slot-label">research · 第2张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'research-img-1','slot-research-1')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-research-2">
+            <img id="slot-research-2-preview" src="assets/images/research-img-2.jpg" style="display: block;">
+            <div class="editor-slot-label">research · 第3张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'research-img-2','slot-research-2')">
+          </div>
+          <div class="editor-slot" onclick="this.querySelector('input').click()" id="slot-research-3">
+            <img id="slot-research-3-preview" src="" style="display:none">
+            <div class="editor-slot-label">research · 第4张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'research-img-3','slot-research-3')">
+          </div>
+          <div class="editor-slot" onclick="this.querySelector('input').click()" id="slot-research-4">
+            <img id="slot-research-4-preview" src="" style="display:none">
+            <div class="editor-slot-label">research · 第5张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'research-img-4','slot-research-4')">
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 工作流 -->
+      <div class="editor-section">
+        <div class="editor-section-title">专业技能 · AI 设计工作流（最多5张）</div>
+        <div class="editor-slots">
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ai-0">
+            <img id="slot-ai-0-preview" src="assets/images/ai-img-0.jpg" style="display: block;">
+            <div class="editor-slot-label">ai · 第1张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-0','slot-ai-0')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ai-1">
+            <img id="slot-ai-1-preview" src="assets/images/ai-img-1.jpg" style="display: block;">
+            <div class="editor-slot-label">ai · 第2张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-1','slot-ai-1')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ai-2">
+            <img id="slot-ai-2-preview" src="assets/images/ai-img-2.jpg" style="display: block;">
+            <div class="editor-slot-label">ai · 第3张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-2','slot-ai-2')">
+          </div>
+          <div class="editor-slot" onclick="this.querySelector('input').click()" id="slot-ai-3">
+            <img id="slot-ai-3-preview" src="" style="display:none">
+            <div class="editor-slot-label">ai · 第4张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-3','slot-ai-3')">
+          </div>
+          <div class="editor-slot" onclick="this.querySelector('input').click()" id="slot-ai-4">
+            <img id="slot-ai-4-preview" src="" style="display:none">
+            <div class="editor-slot-label">ai · 第5张</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-4','slot-ai-4')">
+          </div>
+        </div>
+      </div>
+
+      <!-- 作品封面 -->
+      <div class="editor-section">
+        <div class="editor-section-title">作品展示 · 项目封面图</div>
+        <div class="editor-slots">
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-work-0">
+            <img id="slot-work-0-preview" src="assets/images/work-img-0.jpg" style="display: block;">
+            <div class="editor-slot-label">01 AI县域服务平台</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择封面图</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'work-img-0','slot-work-0')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-work-1">
+            <img id="slot-work-1-preview" src="assets/images/work-img-1.jpg" style="display: block;">
+            <div class="editor-slot-label">02 平台用户增长</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择封面图</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'work-img-1','slot-work-1')">
+          </div>
+          <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-work-2">
+            <img id="slot-work-2-preview" src="assets/images/work-img-2.jpg" style="display: block;">
+            <div class="editor-slot-label">03 公益宝贝重构</div>
+            <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择封面图</div></div>
+            <input type="file" accept="image/*" onchange="embedImage(this,'work-img-2','slot-work-2')">
+          </div>
+        </div>
+      </div>
+
+      <!-- 项目详情 · 案例图（JS动态渲染，每项目20张） -->
+      <div id="editor-pd-sections"><div class="editor-section"><div class="editor-section-title">作品详情 · 项目一案例图（最多20张）</div><div class="editor-slots"><div class="editor-slot" id="slot-pd-0-0"><img id="slot-pd-0-0-preview" style="display: none;"><div class="editor-slot-label">01 · 第1张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-1"><img id="slot-pd-0-1-preview" style="display: none;"><div class="editor-slot-label">01 · 第2张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-2"><img id="slot-pd-0-2-preview" style="display: none;"><div class="editor-slot-label">01 · 第3张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-3"><img id="slot-pd-0-3-preview" style="display: none;"><div class="editor-slot-label">01 · 第4张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-4"><img id="slot-pd-0-4-preview" style="display: none;"><div class="editor-slot-label">01 · 第5张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-5"><img id="slot-pd-0-5-preview" style="display: none;"><div class="editor-slot-label">01 · 第6张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-6"><img id="slot-pd-0-6-preview" style="display: none;"><div class="editor-slot-label">01 · 第7张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-7"><img id="slot-pd-0-7-preview" style="display: none;"><div class="editor-slot-label">01 · 第8张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-8"><img id="slot-pd-0-8-preview" style="display: none;"><div class="editor-slot-label">01 · 第9张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-9"><img id="slot-pd-0-9-preview" style="display: none;"><div class="editor-slot-label">01 · 第10张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-10"><img id="slot-pd-0-10-preview" style="display: none;"><div class="editor-slot-label">01 · 第11张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-11"><img id="slot-pd-0-11-preview" style="display: none;"><div class="editor-slot-label">01 · 第12张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-12"><img id="slot-pd-0-12-preview" style="display: none;"><div class="editor-slot-label">01 · 第13张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-13"><img id="slot-pd-0-13-preview" style="display: none;"><div class="editor-slot-label">01 · 第14张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-14"><img id="slot-pd-0-14-preview" style="display: none;"><div class="editor-slot-label">01 · 第15张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-15"><img id="slot-pd-0-15-preview" style="display: none;"><div class="editor-slot-label">01 · 第16张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-16"><img id="slot-pd-0-16-preview" style="display: none;"><div class="editor-slot-label">01 · 第17张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-17"><img id="slot-pd-0-17-preview" style="display: none;"><div class="editor-slot-label">01 · 第18张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-18"><img id="slot-pd-0-18-preview" style="display: none;"><div class="editor-slot-label">01 · 第19张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-0-19"><img id="slot-pd-0-19-preview" style="display: none;"><div class="editor-slot-label">01 · 第20张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div></div></div><div class="editor-section"><div class="editor-section-title">作品详情 · 项目二案例图（最多20张）</div><div class="editor-slots"><div class="editor-slot has-img" id="slot-pd-1-0"><img id="slot-pd-1-0-preview" style="display: block;" src="assets/images/pd-img-1-0.jpg"><div class="editor-slot-label">02 · 第1张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-1"><img id="slot-pd-1-1-preview" style="display: block;" src="assets/images/pd-img-1-1.jpg"><div class="editor-slot-label">02 · 第2张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-2"><img id="slot-pd-1-2-preview" style="display: block;" src="assets/images/pd-img-1-2.jpg"><div class="editor-slot-label">02 · 第3张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-3"><img id="slot-pd-1-3-preview" style="display: block;" src="assets/images/pd-img-1-3.jpg"><div class="editor-slot-label">02 · 第4张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-4"><img id="slot-pd-1-4-preview" style="display: block;" src="assets/images/pd-img-1-4.jpg"><div class="editor-slot-label">02 · 第5张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-5"><img id="slot-pd-1-5-preview" style="display: block;" src="assets/images/pd-img-1-5.jpg"><div class="editor-slot-label">02 · 第6张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-6"><img id="slot-pd-1-6-preview" style="display: block;" src="assets/images/pd-img-1-6.jpg"><div class="editor-slot-label">02 · 第7张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-7"><img id="slot-pd-1-7-preview" style="display: block;" src="assets/images/pd-img-1-7.jpg"><div class="editor-slot-label">02 · 第8张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-8"><img id="slot-pd-1-8-preview" style="display: block;" src="assets/images/pd-img-1-8.jpg"><div class="editor-slot-label">02 · 第9张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-9"><img id="slot-pd-1-9-preview" style="display: block;" src="assets/images/pd-img-1-9.jpg"><div class="editor-slot-label">02 · 第10张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-10"><img id="slot-pd-1-10-preview" style="display: block;" src="assets/images/pd-img-1-10.jpg"><div class="editor-slot-label">02 · 第11张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-11"><img id="slot-pd-1-11-preview" style="display: block;" src="assets/images/pd-img-1-11.jpg"><div class="editor-slot-label">02 · 第12张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-12"><img id="slot-pd-1-12-preview" style="display: block;" src="assets/images/pd-img-1-12.jpg"><div class="editor-slot-label">02 · 第13张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-13"><img id="slot-pd-1-13-preview" style="display: block;" src="assets/images/pd-img-1-13.jpg"><div class="editor-slot-label">02 · 第14张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-14"><img id="slot-pd-1-14-preview" style="display: block;" src="assets/images/pd-img-1-14.jpg"><div class="editor-slot-label">02 · 第15张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-15"><img id="slot-pd-1-15-preview" style="display: block;" src="assets/images/pd-img-1-15.jpg"><div class="editor-slot-label">02 · 第16张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-1-16"><img id="slot-pd-1-16-preview" style="display: block;" src="assets/images/pd-img-1-16.jpg"><div class="editor-slot-label">02 · 第17张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-1-17"><img id="slot-pd-1-17-preview" style="display: none;"><div class="editor-slot-label">02 · 第18张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-1-18"><img id="slot-pd-1-18-preview" style="display: none;"><div class="editor-slot-label">02 · 第19张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-1-19"><img id="slot-pd-1-19-preview" style="display: none;"><div class="editor-slot-label">02 · 第20张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div></div></div><div class="editor-section"><div class="editor-section-title">作品详情 · 项目三案例图（最多20张）</div><div class="editor-slots"><div class="editor-slot has-img" id="slot-pd-2-0"><img id="slot-pd-2-0-preview" src="assets/images/pd-img-2-0.jpg" style="display: block;"><div class="editor-slot-label">03 · 第1张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-1"><img id="slot-pd-2-1-preview" src="assets/images/pd-img-2-1.jpg" style="display: block;"><div class="editor-slot-label">03 · 第2张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-2"><img id="slot-pd-2-2-preview" src="assets/images/pd-img-2-2.jpg" style="display: block;"><div class="editor-slot-label">03 · 第3张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-3"><img id="slot-pd-2-3-preview" style="display: block;" src="assets/images/pd-img-2-3.jpg"><div class="editor-slot-label">03 · 第4张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-4"><img id="slot-pd-2-4-preview" style="display: block;" src="assets/images/pd-img-2-4.jpg"><div class="editor-slot-label">03 · 第5张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-5"><img id="slot-pd-2-5-preview" style="display: block;" src="assets/images/pd-img-2-5.jpg"><div class="editor-slot-label">03 · 第6张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-6"><img id="slot-pd-2-6-preview" style="display: block;" src="assets/images/pd-img-2-6.jpg"><div class="editor-slot-label">03 · 第7张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-7"><img id="slot-pd-2-7-preview" style="display: block;" src="assets/images/pd-img-2-7.jpg"><div class="editor-slot-label">03 · 第8张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-8"><img id="slot-pd-2-8-preview" style="display: block;" src="assets/images/pd-img-2-8.jpg"><div class="editor-slot-label">03 · 第9张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-9"><img id="slot-pd-2-9-preview" style="display: block;" src="assets/images/pd-img-2-9.jpg"><div class="editor-slot-label">03 · 第10张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-10"><img id="slot-pd-2-10-preview" style="display: block;" src="assets/images/pd-img-2-10.jpg"><div class="editor-slot-label">03 · 第11张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-11"><img id="slot-pd-2-11-preview" style="display: block;" src="assets/images/pd-img-2-11.jpg"><div class="editor-slot-label">03 · 第12张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot has-img" id="slot-pd-2-12"><img id="slot-pd-2-12-preview" style="display: block;" src="assets/images/pd-img-2-12.jpg"><div class="editor-slot-label">03 · 第13张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-2-13"><img id="slot-pd-2-13-preview" style="display: none;"><div class="editor-slot-label">03 · 第14张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-2-14"><img id="slot-pd-2-14-preview" style="display: none;"><div class="editor-slot-label">03 · 第15张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-2-15"><img id="slot-pd-2-15-preview" style="display: none;"><div class="editor-slot-label">03 · 第16张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-2-16"><img id="slot-pd-2-16-preview" style="display: none;"><div class="editor-slot-label">03 · 第17张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-2-17"><img id="slot-pd-2-17-preview" style="display: none;"><div class="editor-slot-label">03 · 第18张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-2-18"><img id="slot-pd-2-18-preview" style="display: none;"><div class="editor-slot-label">03 · 第19张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div><div class="editor-slot" id="slot-pd-2-19"><img id="slot-pd-2-19-preview" style="display: none;"><div class="editor-slot-label">03 · 第20张</div><div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div><input type="file" accept="image/*,.pdf" multiple=""></div></div></div></div>
+
+      <div class="editor-actions">
+        <button class="editor-btn editor-btn--deploy" onclick="exportForDeploy()" title="生成供 Netlify/GitHub Pages 部署的 index.html，IndexedDB 图片自动嵌入">🚀 导出部署版 index.html</button>
+        <button class="editor-btn editor-btn--export" onclick="exportEmbeddedHTML()">⬇ 单文件完整导出</button>
+        <button class="editor-btn editor-btn--clear" onclick="document.getElementById('img-editor').classList.remove('open')">关闭</button>
+      </div>
+      <p class="editor-hint">
+        <b>🚀 部署版</b>：保留 assets/ 静态图片路径 + 将 IndexedDB 中的 AI 创新子 Tab 图片嵌入，搭配 assets/ 文件夹一起上传到 Netlify/GitHub Pages，所有访客均可看到图片。<br>
+        <b>⬇ 单文件</b>：所有图片转为 base64 嵌入，生成完全独立的单个 HTML 文件，双击即可完整显示，无需外部文件（文件较大）。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 照片加载检测
+    (function(){
+      var img = document.getElementById('hero-img');
+      var ph  = document.getElementById('hero-ph');
+      function showPh(){ img.style.display='none'; ph.style.display='flex'; }
+      img.addEventListener('error', showPh);
+      img.addEventListener('load', function(){ if(img.naturalWidth===0) showPh(); });
+    })();
+
+
+    // ── IndexedDB 图片持久化（file:// 直接打开时使用）────────────────────────
+    var _imgDB = null;
+    var _dbLoadDone = false;  // DB 是否已完成加载
+    function _openImgDB(cb) {
+      if (_imgDB) { cb(_imgDB); return; }
+      var req = indexedDB.open('portfolio-images-v1', 1);
+      req.onupgradeneeded = function(e) {
+        e.target.result.createObjectStore('imgs', { keyPath: 'id' });
+      };
+      req.onsuccess = function(e) { _imgDB = e.target.result; cb(_imgDB); };
+      req.onerror   = function()  { /* silent */ };
+    }
+    function _saveImgDB(targetId, slotId, src) {
+      if (!src || !src.startsWith('data:')) return; // 只持久化 base64
+      _openImgDB(function(db) {
+        var tx = db.transaction('imgs', 'readwrite');
+        tx.objectStore('imgs').put({ id: targetId, slotId: slotId, src: src });
+      });
+    }
+    function _deleteImgDB(targetId) {
+      _openImgDB(function(db) {
+        var tx = db.transaction('imgs', 'readwrite');
+        tx.objectStore('imgs').delete(targetId);
+      });
+    }
+    function _loadAllImgsDB() {
+      _openImgDB(function(db) {
+        var tx  = db.transaction('imgs', 'readonly');
+        var req = tx.objectStore('imgs').getAll();
+        req.onsuccess = function(e) {
+          if (!e.target.result || !e.target.result.length) return;
+          var needGallery = false;
+          e.target.result.forEach(function(item) {
+            var target = document.getElementById(item.id);
+            if (target && !target.dataset.uploaded) {
+              target.src = item.src;
+              // 保持 display:none — 这些 img 是数据存储节点，不直接展示
+              target.dataset.uploaded = '1';
+            }
+            var slotId = item.slotId || item.id.replace(/^pd-img-/, 'slot-pd-').replace(/^(ux|research|ai)-img-(\d+)$/, 'slot-$1-$2');
+            var preview = document.getElementById(slotId + '-preview');
+            if (preview && !preview.src) { preview.src = item.src; preview.style.display = 'block'; }
+            var slotEl = document.getElementById(slotId);
+            if (slotEl) slotEl.classList.add('has-img');
+            if (item.id.indexOf('pd-img-') === 0) needGallery = true;
+          });
+          _dbLoadDone = true;
+          // 如果项目详情当前已打开，立即重新渲染 gallery（解决打开速度比DB加载快的时序问题）
+          if (_pdIdx >= 0) {
+            setTimeout(function() {
+              if (_pdIdx === 0) {
+                var t = _subTabData[_subTab];
+                _renderPdGallery(0, t.prefix, t.max);
+              } else {
+                _renderPdGallery(_pdIdx);
+              }
+              ['ux','research','ai'].forEach(function(g) { if(typeof refreshSlideshow==='function') refreshSlideshow(g); });
+            }, 50);
+          } else if (needGallery) {
+            // 项目未打开时刷新 slideshow 即可
+            setTimeout(function() {
+              ['ux','research','ai'].forEach(function(g) { if(typeof refreshSlideshow==='function') refreshSlideshow(g); });
+            }, 50);
+          }
+        };
+      });
+    }
+
+    // 点击背景关闭编辑器
+    document.getElementById('img-editor').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+    // ESC 关闭编辑器
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') document.getElementById('img-editor').classList.remove('open');
+    });
+    // 从 IndexedDB 恢复图片（file:// 直接打开时的持久化方案）
+    _loadAllImgsDB();
+    // Alt+E 快捷键开关编辑器
+    document.addEventListener('keydown', function(e){
+      if(e.altKey && e.key === 'e'){
+        var ed = document.getElementById('img-editor');
+        ed.classList.toggle('open');
+      }
+    });
+
+    // ── 图片应用（路径或 base64 均可）────────────────────────────────
+    function _applyImage(src, targetId, slotId) {
+      var target = document.getElementById(targetId);
+      if (target) {
+        target.src = src;
+        target.style.display = 'block';
+        target.onload = function() {
+          target.dataset.uploaded = '1';
+          _saveImgDB(targetId, slotId, src);
+          var groupMap2 = { 'ux-img': 'ux', 'research-img': 'research', 'ai-img': 'ai' };
+          for (var p in groupMap2) {
+            if (targetId.indexOf(p) === 0) { refreshSlideshow(groupMap2[p]); break; }
+          }
+          var pdMatch = targetId.match(/^pd-img-(\d+)-\d+$/);
+          if (pdMatch && _pdIdx === parseInt(pdMatch[1])) {
+            if (_pdIdx === 0) { var st = _subTabData[_subTab]; _renderPdGallery(0, st.prefix, st.max); }
+            else _renderPdGallery(_pdIdx);
+          }
+          _autoSave();
+        };
+        if (targetId === 'hero-img') document.getElementById('hero-ph').style.display = 'none';
+        var workMatch = targetId.match(/^work-img-(\d)$/);
+        if (workMatch) { var ph = document.getElementById('work-ph-' + workMatch[1]); if (ph) ph.style.display = 'none'; }
+        var groupMap = { 'ux-img': 'ux', 'research-img': 'research', 'ai-img': 'ai' };
+        for (var prefix in groupMap) {
+          if (targetId.indexOf(prefix) === 0) { refreshSlideshow(groupMap[prefix]); break; }
+        }
+      }
+      var preview = document.getElementById(slotId + '-preview');
+      if (preview) { preview.src = src; preview.style.display = 'block'; }
+      var slotEl = document.getElementById(slotId);
+      if (slotEl) slotEl.classList.add('has-img');
+    }
+
+    // 图片嵌入核心函数（优先上传到服务器保存为独立文件，离线退化为 base64）
+    function embedImage(input, targetId, slotId) {
+      var file = input.files[0];
+      if (!file) return;
+      var onLocal = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+      if (onLocal) {
+        var fd = new FormData();
+        fd.append('file', file);
+        fd.append('slot', targetId);
+        fetch('/upload', { method: 'POST', body: fd })
+          .then(function(r) { return r.json(); })
+          .then(function(d) {
+            if (d.ok) _applyImage(d.path + '?v=' + Date.now(), targetId, slotId);
+          })
+          .catch(function() {
+            // server unavailable — fall back to base64
+            var r = new FileReader();
+            r.onload = function(e) { _applyImage(e.target.result, targetId, slotId); };
+            r.readAsDataURL(file);
+          });
+      } else {
+        var r2 = new FileReader();
+        r2.onload = function(e) { _applyImage(e.target.result, targetId, slotId); };
+        r2.readAsDataURL(file);
+      }
+    }
+
+    // 动态生成编辑器里的项目详情图槽位
+    (function() {
+      var names = ['项目一', '项目二', '项目三'];
+      var maxImgs = 20; // 本地定义，不依赖外部变量顺序
+      var wrap = document.getElementById('editor-pd-sections');
+      if (!wrap) return;
+      wrap.innerHTML = ''; // 清空旧节点，防止自动保存后重复 ID
+      for (var p = 0; p < 3; p++) {
+        var sec = document.createElement('div');
+        sec.className = 'editor-section';
+        var titleEl = document.createElement('div');
+        titleEl.className = 'editor-section-title';
+        titleEl.textContent = '作品详情 · ' + names[p] + '案例图（最多' + maxImgs + '张）';
+        sec.appendChild(titleEl);
+        var slots = document.createElement('div');
+        slots.className = 'editor-slots';
+        for (var i = 0; i < maxImgs; i++) {
+          (function(proj, idx) {
+            var sid = 'slot-pd-' + proj + '-' + idx;
+            var tid = 'pd-img-' + proj + '-' + idx;
+            var d = document.createElement('div');
+            d.className = 'editor-slot';
+            d.id = sid;
+            var preview = document.createElement('img');
+            preview.id = sid + '-preview';
+            preview.style.display = 'none';
+            d.appendChild(preview);
+            var lbl = document.createElement('div');
+            lbl.className = 'editor-slot-label';
+            lbl.textContent = '0' + (proj + 1) + ' · 第' + (idx + 1) + '张';
+            d.appendChild(lbl);
+            var ov = document.createElement('div');
+            ov.className = 'editor-slot-overlay';
+            ov.innerHTML = '<div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div>';
+            d.appendChild(ov);
+            var inp = document.createElement('input');
+            inp.type = 'file';
+            inp.accept = 'image/*,.pdf';
+            inp.multiple = true;
+            inp.addEventListener('change', function() { embedPdFiles(inp, proj); });
+            d.appendChild(inp);
+            // 删除按钮
+            var delBtn = document.createElement('button');
+            delBtn.className = 'editor-slot-del';
+            delBtn.title = '删除';
+            delBtn.innerHTML = '×';
+            delBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var imgEl = document.getElementById(tid);
+              if (imgEl) { _deleteImgDB(tid); imgEl.src = ''; imgEl.removeAttribute('data-uploaded'); imgEl.removeAttribute('data-src'); }
+              var prevEl = document.getElementById(sid + '-preview');
+              if (prevEl) { prevEl.src = ''; prevEl.style.display = 'none'; }
+              d.classList.remove('has-img');
+              if (_pdIdx === proj) _renderPdGallery(proj);
+              _autoSave();
+            });
+            d.appendChild(delBtn);
+            d.addEventListener('click', function(e) { if (e.target !== inp && e.target !== delBtn) inp.click(); });
+            slots.appendChild(d);
+          })(p, i);
+        }
+        // 恢复已有图片的预览状态
+        for (var ri = 0; ri < maxImgs; ri++) {
+          (function(rp, ri2) {
+            var imgEl = document.getElementById('pd-img-' + rp + '-' + ri2);
+            if (imgEl && imgEl.dataset.uploaded === '1') {
+              var slotEl  = document.getElementById('slot-pd-' + rp + '-' + ri2);
+              var prevEl  = document.getElementById('slot-pd-' + rp + '-' + ri2 + '-preview');
+              if (slotEl)  slotEl.classList.add('has-img');
+              if (prevEl)  { prevEl.src = imgEl.src; prevEl.style.display = 'block'; }
+            }
+          })(p, ri);
+        }
+        sec.appendChild(slots);
+        wrap.appendChild(sec);
+      }
+
+      // AI创新子tab槽位：0b (OKR×AI提效) / 0c (AI设计工作流)
+      var subPrefixes = ['0b', '0c'];
+      var subNames    = ['AI创新 · OKR×AI提效工具', 'AI创新 · AI设计工作流探索'];
+      subPrefixes.forEach(function(pref, si) {
+        var sec2 = document.createElement('div');
+        sec2.className = 'editor-section';
+        var t2 = document.createElement('div');
+        t2.className = 'editor-section-title';
+        t2.textContent = '作品详情 · ' + subNames[si] + '（最多10张）';
+        sec2.appendChild(t2);
+        var slots2 = document.createElement('div');
+        slots2.className = 'editor-slots';
+        for (var j = 0; j < 10; j++) {
+          (function(prefix2, jj) {
+            var sid2 = 'slot-pd-' + prefix2 + '-' + jj;
+            var tid2 = 'pd-img-'  + prefix2 + '-' + jj;
+            var d2 = document.createElement('div');
+            d2.className = 'editor-slot'; d2.id = sid2;
+            var prev2 = document.createElement('img');
+            prev2.id = sid2 + '-preview'; prev2.style.display = 'none';
+            d2.appendChild(prev2);
+            var lbl2 = document.createElement('div');
+            lbl2.className = 'editor-slot-label';
+            lbl2.textContent = prefix2 + ' · 第' + (jj + 1) + '张';
+            d2.appendChild(lbl2);
+            var ov2 = document.createElement('div');
+            ov2.className = 'editor-slot-overlay';
+            ov2.innerHTML = '<div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div>';
+            d2.appendChild(ov2);
+            var inp2 = document.createElement('input');
+            inp2.type = 'file'; inp2.accept = 'image/*'; inp2.multiple = true;
+            inp2.addEventListener('change', function() { embedSubTabFiles(inp2, prefix2 + '-', 10); });
+            d2.appendChild(inp2);
+            // 删除按钮
+            var delBtn2 = document.createElement('button');
+            delBtn2.className = 'editor-slot-del';
+            delBtn2.title = '删除';
+            delBtn2.innerHTML = '×';
+            delBtn2.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var imgEl2 = document.getElementById(tid2);
+              if (imgEl2) { _deleteImgDB(tid2); imgEl2.src = ''; imgEl2.removeAttribute('data-uploaded'); }
+              var prevEl2 = document.getElementById(sid2 + '-preview');
+              if (prevEl2) { prevEl2.src = ''; prevEl2.style.display = 'none'; }
+              d2.classList.remove('has-img');
+              if (_pdIdx === 0 && _subTabData[_subTab].prefix === prefix2 + '-') {
+                _renderPdGallery(0, prefix2 + '-', 10);
+              }
+              _autoSave();
+            });
+            d2.appendChild(delBtn2);
+            d2.addEventListener('click', function(e) { if (e.target !== inp2 && e.target !== delBtn2) inp2.click(); });
+            slots2.appendChild(d2);
+          })(pref, j);
+        }
+        // 恢复子tab已有图片
+        for (var rj = 0; rj < 10; rj++) {
+          (function(rpref, rj2) {
+            var imgEl3 = document.getElementById('pd-img-' + rpref + '-' + rj2);
+            if (imgEl3 && imgEl3.dataset.uploaded === '1') {
+              var slotEl3 = document.getElementById('slot-pd-' + rpref + '-' + rj2);
+              var prevEl3 = document.getElementById('slot-pd-' + rpref + '-' + rj2 + '-preview');
+              if (slotEl3) slotEl3.classList.add('has-img');
+              if (prevEl3) { prevEl3.src = imgEl3.src; prevEl3.style.display = 'block'; }
+            }
+          })(pref, rj);
+        }
+        sec2.appendChild(slots2);
+        wrap.appendChild(sec2);
+      });
+    })();
+
+    // ── 自动保存到本地服务器 ──────────────────────────────────────────
+    var _saveTimer = null;
+    function _autoSave() {
+      clearTimeout(_saveTimer);
+      _saveTimer = setTimeout(_saveToServer, 1500);
+    }
+
+    function _saveToServer() {
+      // 只在本地开发环境（localhost）下触发
+      if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
+      // 保存前清空动态 gallery（由 JS 重建，不需要持久化，避免 base64 大图写入 HTML）
+      var gallery = document.getElementById('pd-gallery');
+      var galleryContent = gallery ? gallery.innerHTML : '';
+      if (gallery) gallery.innerHTML = '';
+      var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      if (gallery) gallery.innerHTML = galleryContent; // 立即恢复，不影响当前展示
+      fetch('/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ html: html })
+      }).then(function(r) {
+        if (r.ok) _showSaveToast('✓ 图片已自动保存');
+      }).catch(function() {
+        // 静默失败，不打扰用户
+      });
+    }
+
+    function _showSaveToast(msg) {
+      var t = document.getElementById('save-toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'save-toast';
+        t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:rgba(30,30,30,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#e8e8e8;font-family:var(--font-mono);font-size:.75rem;letter-spacing:.05em;padding:8px 18px;border-radius:6px;border:1px solid rgba(255,255,255,.08);z-index:9999;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.style.opacity = '1';
+      t.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(t._hide);
+      t._hide = setTimeout(function() {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-50%) translateY(12px)';
+      }, 2200);
+    }
+
+    // 导出完整内嵌HTML（异步：将本地图片文件重新内嵌为 base64，确保导出文件自包含）
+    // ── 部署版导出：保留 assets/ 静态路径，仅将 IndexedDB 图片（data: src）嵌入 ──────
+    async function exportForDeploy() {
+      document.getElementById('img-editor').classList.remove('open');
+      _showSaveToast('// 正在准备部署版本，请稍候…');
+      // 等待 DOM 稳定
+      await new Promise(function(r) { setTimeout(r, 120); });
+      // 直接序列化当前 DOM：
+      //   - 静态图片（assets/images/pd-img-0-*.jpg 等）src 保持文件路径 → 部署时由 assets/ 文件夹提供
+      //   - IndexedDB 恢复的图片（pd-img-0b-*、pd-img-0c-*）src 已是 data:base64 → 嵌入 HTML 中
+      //   所有访客打开部署后的页面都能直接看到全部图片，无需本地 IndexedDB
+      var exportHtml = '<!DOCTYPE html>
+' + document.documentElement.outerHTML;
+      var dlBlob = new Blob([exportHtml], { type: 'text/html;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(dlBlob);
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(a.href); }, 5000);
+      _showSaveToast('✓ 部署版 index.html 已下载，替换部署包中的原文件后重新上传即可');
+    }
+
+    async function exportEmbeddedHTML() {
+      document.getElementById('img-editor').classList.remove('open');
+      document.getElementById('editor-trigger').style.display = 'none';
+      _showSaveToast('// 正在打包图片，请稍候…');
+
+      // 收集所有已上传、且 src 为本地路径的图片，临时替换为 base64
+      var imgs = Array.from(document.querySelectorAll('img[data-uploaded="1"]'));
+      var origSrcs = imgs.map(function(img) { return img.getAttribute('src'); });
+      for (var i = 0; i < imgs.length; i++) {
+        var s = origSrcs[i];
+        if (s && s.indexOf('data:') !== 0) {
+          try {
+            var resp = await fetch(s.split('?')[0]); // 去除 cache-bust 参数
+            var blob3 = await resp.blob();
+            var b64 = await new Promise(function(res) {
+              var fr = new FileReader(); fr.onload = function() { res(fr.result); }; fr.readAsDataURL(blob3);
+            });
+            imgs[i].setAttribute('src', b64);
+          } catch(e) { /* 单张失败不影响整体 */ }
+        }
+      }
+      await new Promise(function(r) { setTimeout(r, 80); });
+
+      var exportHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+      // 恢复原始路径 src
+      for (var j = 0; j < imgs.length; j++) { imgs[j].setAttribute('src', origSrcs[j]); }
+
+      // 保存到本地服务器（更新 index.html，但保留路径 src）
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        var saveHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        fetch('/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ html: saveHtml })
+        }).then(function(r) {
+          if (r.ok) _showSaveToast('✓ 已保存到本地文件');
+        }).catch(function() {});
+      }
+
+      // 下载自包含备份
+      var dlBlob = new Blob([exportHtml], { type: 'text/html;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(dlBlob);
+      a.download = '陈昊烨_作品集网站.html';
+      a.click();
+      document.getElementById('editor-trigger').style.display = 'flex';
+    }
+
+    // Nav
+    const nav = document.getElementById('nav');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+    function updateNav() {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+      let cur = '';
+      sections.forEach(s => { if(window.scrollY >= s.offsetTop - 90) cur = s.id; });
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
+    }
+    window.addEventListener('scroll', updateNav);
+    updateNav(); // 初始化：页面加载时立即计算正确的 active 状态
+
+    // ── 移动端汉堡菜单 ─────────────────────────────────────────────────────
+    (function() {
+      var btn   = document.querySelector('.nav-menu-btn');
+      var panel = document.getElementById('mobile-nav-panel');
+      if (!btn || !panel) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = panel.classList.toggle('is-open');
+        btn.classList.toggle('is-open', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      document.addEventListener('click', function(e) {
+        if (!panel.contains(e.target) && !btn.contains(e.target)) {
+          panel.classList.remove('is-open');
+          btn.classList.remove('is-open');
+          document.body.style.overflow = '';
+        }
+      });
+      // 滚动时关闭
+      window.addEventListener('scroll', function() {
+        panel.classList.remove('is-open');
+        btn.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }, { passive: true });
+    })();
+    function closeMobileNav() {
+      var panel = document.getElementById('mobile-nav-panel');
+      var btn   = document.querySelector('.nav-menu-btn');
+      if (panel) panel.classList.remove('is-open');
+      if (btn)   btn.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+
+
+    // Typewriter
+    const twLines = [
+      { el: document.getElementById('hero-type-kicker'), speed: 42 },
+      { el: document.getElementById('hero-type-title'), speed: 86 },
+      { el: document.getElementById('hero-type-subtitle'), speed: 50 }
+    ];
+    async function typeWriter() {
+      if (twLines.some(({el}) => !el)) return;
+      for (const {el, speed} of twLines) {
+        const text = el.dataset.typeText || '';
+        el.textContent = '';
+        el.classList.add('typing-active');
+        for (let i = 0; i <= text.length; i++) {
+          el.textContent = text.slice(0, i);
+          await new Promise(r => setTimeout(r, speed));
+        }
+        el.classList.remove('typing-active');
+        await new Promise(r => setTimeout(r, 180));
+      }
+      const last = twLines[twLines.length - 1].el;
+      last.innerHTML = (last.dataset.typeText || '') + '<span class="typewriter-cursor"></span>';
+    }
+    if (twLines.every(({el}) => el)) setTimeout(typeWriter, 420);
+
+    // Reveal
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+    }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+    // ── Project Detail ───────────────────────────────────────────────
+    var _pdIdx = -1;
+    var PD_MAX = 20; // 每个项目最多上传图片数
+    var _subTab = 0;
+    var _subTabData = [
+      { desc: '主导阿里面向县域的 AI 服务平台从 0 到 1 设计落地，基于三方实地调研定义 AI 对话流交互范式，将复杂政务信息与出行服务转化为自然的对话式体验，大幅提升基层办事效率。', prefix: '0-', max: 20 },
+      { desc: '通过AI提效调研挖掘用户对OKR系统的使用痛点，产出AI提效设计方案并推动在管理者与员工两个层级的落地。', prefix: '0b-', max: 10 },
+      { desc: '总结AI生图最佳实践赋能团队；结合设计经验封装用户调研、竞品分析、设计评审等多个工作流程Skill，降低重复劳动工作量；利用Vibe Coding工具快速搭建交互玩法demo，提升创意输出效率。', prefix: '0c-', max: 10 }
+    ];
+
+    function switchSubTab(n) {
+      _subTab = n;
+      document.querySelectorAll('.pd-sub-tab').forEach(function(btn) {
+        btn.classList.toggle('active', parseInt(btn.dataset.sub) === n);
+      });
+      var t = _subTabData[n];
+      document.getElementById('pd-desc').textContent = t.desc;
+      _renderPdGallery(0, t.prefix, t.max);
+    }
+
+    function embedSubTabFiles(input, prefix, max) {
+      var files = Array.from(input.files);
+      if (!files.length) return;
+      var startSlot = 0;
+      for (var k = 0; k < max; k++) {
+        var chk = document.getElementById('pd-img-' + prefix + k);
+        if (chk && chk.dataset.uploaded !== '1') { startSlot = k; break; }
+        if (k === max - 1) startSlot = 0;
+      }
+      var slotCursor = startSlot;
+      files.forEach(function(file) {
+        var isPdf = (file.type === 'application/pdf');
+        if (isPdf) {
+          var pdfStart = slotCursor;
+          slotCursor = (slotCursor + Math.min(10, max)) % max;
+          var reader0 = new FileReader();
+          reader0.onload = function(e) { _renderPdfPagesPrefix(e.target.result, prefix, max, pdfStart); };
+          reader0.readAsArrayBuffer(file);
+        } else {
+          var curSlot = slotCursor;
+          slotCursor = (slotCursor + 1) % max;
+          var tid = 'pd-img-' + prefix + curSlot;
+          var sid = 'slot-pd-' + prefix + curSlot;
+          (function(t2, s2) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              var dataUrl = e.target.result;
+              var el = document.getElementById(t2);
+              if (el) { el.src = dataUrl; el.dataset.uploaded = '1'; }
+              _saveImgDB(t2, s2, dataUrl);
+              var prev = document.getElementById(s2 + '-preview');
+              if (prev) { prev.src = dataUrl; prev.style.display = 'block'; }
+              var slotEl = document.getElementById(s2);
+              if (slotEl) slotEl.classList.add('has-img');
+              if (_pdIdx === 0 && _subTabData[_subTab].prefix === prefix) {
+                _renderPdGallery(0, prefix, max);
+              }
+              _autoSave();
+            };
+            reader.readAsDataURL(file);
+          })(tid, sid);
+        }
+      });
+    }
+
+    async function _renderPdfPagesPrefix(arrayBuffer, prefix, max, startSlot) {
+      var gallery = document.getElementById('pd-gallery');
+      var empty   = document.getElementById('pd-empty');
+      var isActive = (_pdIdx === 0 && _subTabData[_subTab].prefix === prefix);
+      if (isActive) {
+        gallery.style.display = 'none';
+        empty.textContent = '// PDF 渲染中，请稍候…';
+        empty.style.display = '';
+      }
+      try {
+        var pdf   = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+        var total = Math.min(pdf.numPages, max - startSlot);
+        for (var pageNum = 1; pageNum <= total; pageNum++) {
+          var slotIdx = (startSlot + pageNum - 1) % max;
+          var tid = 'pd-img-'  + prefix + slotIdx;
+          var sid = 'slot-pd-' + prefix + slotIdx;
+          var page = await pdf.getPage(pageNum);
+          var vp   = page.getViewport({scale: 1.8});
+          var canvas = document.createElement('canvas');
+          canvas.width = vp.width; canvas.height = vp.height;
+          await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+          var imgDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+          var el = document.getElementById(tid);
+          if (el) { el.src = imgDataUrl; el.dataset.uploaded = '1'; }
+          _saveImgDB(tid, sid, imgDataUrl);
+          var prev = document.getElementById(sid + '-preview');
+          if (prev) { prev.src = imgDataUrl; prev.style.display = 'block'; }
+          var slotEl = document.getElementById(sid);
+          if (slotEl) slotEl.classList.add('has-img');
+          if (_pdIdx === 0 && _subTabData[_subTab].prefix === prefix) {
+            _renderPdGallery(0, prefix, max);
+          }
+          _autoSave();
+        }
+      } catch(err) {
+        if (isActive) {
+          empty.textContent = '// PDF 渲染失败，请检查文件';
+          empty.style.display = ''; gallery.style.display = 'none';
+        }
+      }
+      empty.textContent = '// 暂无案例图片，请通过右下角「添加图片」上传';
+    }
+
+    var _pdData = [
+      {
+        num: '01 / 03',
+        title: 'AI 驱动的创新项目',
+        tags: [{t:'对话流设计'},{t:'AI 产品',a:true},{t:'Vibe Coding'}],
+        desc: '主导阿里面向县域的 AI 服务平台从 0 到 1 设计落地，基于三方实地调研定义 AI 对话流交互范式，将复杂政务信息与出行服务转化为自然的对话式体验，大幅提升基层办事效率。'
+      },
+      {
+        num: '02 / 03',
+        title: '3小时平台用户增长设计',
+        tags: [{t:'账户体系'},{t:'用户增长',a:true},{t:'互动产品'}],
+        desc: '主导全链路增长体验优化，从调研定位体验断点到设计公益账户信息架构与 10 多套互动玩法，为阿里系用户构建公益行为参与、记录与展示中台。'
+      },
+      {
+        num: '03 / 03',
+        title: '淘宝公益宝贝体验优化',
+        tags: [{t:'B/C双端'},{t:'电商体验重构',a:true},{t:'公益宝贝'}],
+        desc: '发起 B/C 端全链路走查，重构商家设置链路与用户端公益感知路径，打通双端体验断点，让公益行为真正融入用户日常购物决策。'
+      }
+    ];
+
+    // 初始化 PDF.js worker
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    function _renderPdGallery(idx, imgPrefix, maxSlots) {
+      imgPrefix = (imgPrefix !== undefined) ? imgPrefix : (idx + '-');
+      maxSlots  = maxSlots  || PD_MAX;
+      var gallery = document.getElementById('pd-gallery');
+      var empty   = document.getElementById('pd-empty');
+      gallery.innerHTML = '';
+      var count = 0;
+      for (var i = 0; i < maxSlots; i++) {
+        var el = document.getElementById('pd-img-' + imgPrefix + i);
+        if (!el || el.dataset.uploaded !== '1') continue;
+        count++;
+        var src = el.src;
+        var img = document.createElement('img');
+        img.src = src;
+        img.className = 'pd-gallery-img';
+        img.alt = '案例图 ' + (i + 1);
+        gallery.appendChild(img);
+      }
+      if (count === 0) { gallery.style.display = 'none'; empty.style.display = ''; }
+      else             { gallery.style.display = '';     empty.style.display = 'none'; }
+    }
+
+    // PDF 每页渲染为图片并存入槽位
+    async function _renderPdfPages(arrayBuffer, proj, startSlot) {
+      var empty = document.getElementById('pd-empty');
+      var gallery = document.getElementById('pd-gallery');
+      if (_pdIdx === proj) {
+        gallery.style.display = 'none';
+        empty.textContent = '// PDF 渲染中，请稍候…';
+        empty.style.display = '';
+      }
+      try {
+        var pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+        var total = Math.min(pdf.numPages, PD_MAX - startSlot);
+        for (var pageNum = 1; pageNum <= total; pageNum++) {
+          var slotIdx = (startSlot + pageNum - 1) % PD_MAX;
+          var tid = 'pd-img-' + proj + '-' + slotIdx;
+          var sid = 'slot-pd-' + proj + '-' + slotIdx;
+          var page = await pdf.getPage(pageNum);
+          var vp = page.getViewport({scale: 1.8});
+          var canvas = document.createElement('canvas');
+          canvas.width = vp.width; canvas.height = vp.height;
+          await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+          var onLocal2 = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+          if (onLocal2) {
+            var pdfBlob = await new Promise(function(res) { canvas.toBlob(res, 'image/jpeg', 0.88); });
+            var fd2 = new FormData();
+            fd2.append('file', pdfBlob, tid + '.jpg');
+            fd2.append('slot', tid);
+            try {
+              var upResp = await fetch('/upload', { method: 'POST', body: fd2 });
+              var upData = await upResp.json();
+              if (upData.ok) {
+                var imgSrc2 = upData.path + '?v=' + Date.now();
+                var el = document.getElementById(tid);
+                if (el) { el.src = imgSrc2; el.dataset.uploaded = '1'; }
+                var preview = document.getElementById(sid + '-preview');
+                if (preview) { preview.src = imgSrc2; preview.style.display = 'block'; }
+                var slot = document.getElementById(sid);
+                if (slot) slot.classList.add('has-img');
+                if (_pdIdx === proj) _renderPdGallery(proj);
+                _autoSave();
+              }
+            } catch(uploadErr) {
+              // fallback to base64 on error
+              var imgDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+              var el = document.getElementById(tid);
+              if (el) { el.src = imgDataUrl; el.dataset.uploaded = '1'; }
+              _saveImgDB(tid, sid, imgDataUrl);
+              var preview = document.getElementById(sid + '-preview');
+              if (preview) { preview.src = imgDataUrl; preview.style.display = 'block'; }
+              var slot = document.getElementById(sid);
+              if (slot) slot.classList.add('has-img');
+              if (_pdIdx === proj) _renderPdGallery(proj);
+              _autoSave();
+            }
+          } else {
+            var imgDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+            var el = document.getElementById(tid);
+            if (el) { el.src = imgDataUrl; el.dataset.uploaded = '1'; }
+            _saveImgDB(tid, sid, imgDataUrl);
+            var preview = document.getElementById(sid + '-preview');
+            if (preview) { preview.src = imgDataUrl; preview.style.display = 'block'; }
+            var slot = document.getElementById(sid);
+            if (slot) slot.classList.add('has-img');
+            if (_pdIdx === proj) _renderPdGallery(proj);
+            _autoSave();
+          }
+        }
+      } catch(err) {
+        if (_pdIdx === proj) {
+          empty.textContent = '// PDF 渲染失败，请检查文件';
+          empty.style.display = ''; gallery.style.display = 'none';
+        }
+      }
+      // 恢复默认空提示文字
+      empty.textContent = '// 暂无案例图片，请通过右下角「添加图片」上传';
+    }
+
+    // 多文件上传（图片批量 + PDF 逐页转图片）
+    function embedPdFiles(input, proj) {
+      var files = Array.from(input.files);
+      if (!files.length) return;
+      // 找第一个空槽
+      var startSlot = 0;
+      for (var k = 0; k < PD_MAX; k++) {
+        var chk = document.getElementById('pd-img-' + proj + '-' + k);
+        if (chk && chk.dataset.uploaded !== '1') { startSlot = k; break; }
+        if (k === PD_MAX - 1) startSlot = 0;
+      }
+      var slotCursor = startSlot;
+      files.forEach(function(file) {
+        var isPdf = (file.type === 'application/pdf');
+        if (isPdf) {
+          var pdfStart = slotCursor;
+          slotCursor = (slotCursor + 20) % PD_MAX; // 预留 20 槽
+          var reader = new FileReader();
+          reader.onload = function(e) { _renderPdfPages(e.target.result, proj, pdfStart); };
+          reader.readAsArrayBuffer(file);
+        } else {
+          var curSlot = slotCursor;
+          slotCursor = (slotCursor + 1) % PD_MAX;
+          var tid2 = 'pd-img-' + proj + '-' + curSlot;
+          var sid2 = 'slot-pd-' + proj + '-' + curSlot;
+          (function(tid, sid) {
+            var onLocal = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+            if (onLocal) {
+              var fd = new FormData();
+              fd.append('file', file);
+              fd.append('slot', tid);
+              fetch('/upload', { method: 'POST', body: fd })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                  if (!d.ok) return;
+                  var imgSrc = d.path + '?v=' + Date.now();
+                  var el = document.getElementById(tid);
+                  if (el) { el.src = imgSrc; el.dataset.uploaded = '1'; }
+                  var preview = document.getElementById(sid + '-preview');
+                  if (preview) { preview.src = imgSrc; preview.style.display = 'block'; }
+                  var slotEl = document.getElementById(sid);
+                  if (slotEl) slotEl.classList.add('has-img');
+                  if (_pdIdx === proj) _renderPdGallery(proj);
+                  _autoSave();
+                })
+                .catch(function() {
+                  var r2 = new FileReader();
+                  r2.onload = function(e) {
+                    var dataUrl = e.target.result;
+                    var el = document.getElementById(tid);
+                    if (el) { el.src = dataUrl; el.dataset.uploaded = '1'; }
+                    _saveImgDB(tid, sid, dataUrl);
+                    var preview = document.getElementById(sid + '-preview');
+                    if (preview) { preview.src = dataUrl; preview.style.display = 'block'; }
+                    var slotEl = document.getElementById(sid);
+                    if (slotEl) slotEl.classList.add('has-img');
+                    if (_pdIdx === proj) _renderPdGallery(proj);
+                    _autoSave();
+                  };
+                  r2.readAsDataURL(file);
+                });
+            } else {
+              var r3 = new FileReader();
+              r3.onload = function(e) {
+                var dataUrl = e.target.result;
+                var el = document.getElementById(tid);
+                if (el) { el.src = dataUrl; el.dataset.uploaded = '1'; }
+                _saveImgDB(tid, sid, dataUrl);
+                var preview = document.getElementById(sid + '-preview');
+                if (preview) { preview.src = dataUrl; preview.style.display = 'block'; }
+                var slotEl = document.getElementById(sid);
+                if (slotEl) slotEl.classList.add('has-img');
+                if (_pdIdx === proj) _renderPdGallery(proj);
+                _autoSave();
+              };
+              r3.readAsDataURL(file);
+            }
+          })(tid2, sid2);
+        }
+      });
+    }
+
+    function openProject(idx) {
+      _pdIdx = idx;
+      // 更新 tab 高亮
+      document.querySelectorAll('.pd-tab').forEach(function(btn){
+        btn.classList.toggle('active', parseInt(btn.dataset.idx) === idx);
+      });
+      var p = _pdData[idx];
+      var det = document.getElementById('project-detail');
+      det.dataset.project = idx;
+      document.getElementById('pd-num').textContent = p.num;
+      document.getElementById('pd-title').textContent = p.title;
+      document.getElementById('pd-desc').textContent = p.desc;
+      var tagsEl = document.getElementById('pd-tags');
+      tagsEl.innerHTML = '';
+      p.tags.forEach(function(tg) {
+        var s = document.createElement('span');
+        s.className = 'tag' + (tg.a ? ' tag--accent' : '');
+        s.textContent = tg.t;
+        tagsEl.appendChild(s);
+      });
+      var subTabsEl = document.getElementById('pd-sub-tabs');
+      var descEl    = document.getElementById('pd-desc');
+      var galleryEl = document.getElementById('pd-gallery');
+      var heroContainer = document.querySelector('#project-detail .pd-hero .container');
+      var bodyContainer = document.querySelector('#project-detail .pd-body .container');
+      if (idx === 0) {
+        // project 0: desc → pd-body（gallery 前），sub-tabs 可见
+        if (descEl && bodyContainer && galleryEl) {
+          descEl.classList.add('pd-desc--body');
+          bodyContainer.insertBefore(descEl, galleryEl);
+        }
+        if (subTabsEl) subTabsEl.style.display = '';
+        _subTab = 0;
+        switchSubTab(0);
+      } else {
+        // project 1/2: desc → pd-hero（sub-tabs 前），sub-tabs 隐藏
+        if (descEl && heroContainer && subTabsEl) {
+          descEl.classList.remove('pd-desc--body');
+          heroContainer.insertBefore(descEl, subTabsEl);
+        }
+        if (subTabsEl) subTabsEl.style.display = 'none';
+        _renderPdGallery(idx);
+      }
+      det.style.display = 'block';
+      det.scrollTop = 0;
+      requestAnimationFrame(function(){ det.classList.add('pd-active'); });
+      document.body.style.overflow = 'hidden';
+      // 如果 DB 尚未加载完，延迟二次渲染（解决移动端/首次加载的时序问题）
+      if (!_dbLoadDone) {
+        var _retryTimer = setInterval(function() {
+          if (_dbLoadDone) {
+            clearInterval(_retryTimer);
+            if (_pdIdx === 0) {
+              var t = _subTabData[_subTab]; _renderPdGallery(0, t.prefix, t.max);
+            } else if (_pdIdx >= 0) {
+              _renderPdGallery(_pdIdx);
+            }
+          }
+        }, 100);
+        // 最多等3秒
+        setTimeout(function() { clearInterval(_retryTimer); }, 3000);
+      }
+    }
+
+
+    function copyContact(text, btn) {
+      navigator.clipboard.writeText(text).then(function() {
+        var orig = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-6"/></svg>';
+        setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = orig; }, 1800);
+      }).catch(function() {
+        // fallback for older browsers
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        var orig = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-6"/></svg>';
+        setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = orig; }, 1800);
+      });
+    }
+
+    // 封底打字机
+    (function() {
+      var part1 = 'This Website is Human Directed, ';
+      var part2 = 'AI Generated.';
+      var el1 = document.getElementById('tagline-text1');
+      var el2 = document.getElementById('tagline-text2');
+      var cursor = document.getElementById('tagline-cursor');
+      var triggered = false;
+      var speed = 48;
+
+      function typeChars(str, el, cb) {
+        var i = 0;
+        function next() {
+          if (i < str.length) { el.textContent += str[i++]; setTimeout(next, speed); }
+          else if (cb) setTimeout(cb, 120);
+        }
+        next();
+      }
+
+      function startTagline() {
+        if (triggered) return; triggered = true;
+        setTimeout(function() {
+          typeChars(part1, el1, function() {
+            typeChars(part2, el2, function() {
+              setTimeout(function() {
+                if (cursor) { cursor.style.opacity = '0'; }
+              }, 1200);
+            });
+          });
+        }, 400);
+      }
+
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) { startTagline(); obs.disconnect(); } });
+      }, { threshold: 0.4 });
+      var sec = document.querySelector('.footer-tagline-section');
+      if (sec) obs.observe(sec); else startTagline();
+    })();
+
+    function closeProject() {
+      var det = document.getElementById('project-detail');
+      det.classList.remove('pd-active');
+      setTimeout(function(){ det.style.display = 'none'; }, 300);
+      document.body.style.overflow = '';
+      _pdIdx = -1;
+    }
+
+    // CountUp
+    function easeOutQuart(t){ return 1 - Math.pow(1-t, 4); }
+    function countUp(el, target, prefix, suffix, dur){
+      const start = performance.now();
+      const dec = target % 1 !== 0;
+      function step(now){
+        const p = Math.min((now-start)/dur, 1);
+        const v = target * easeOutQuart(p);
+        el.textContent = (prefix||'') + (dec ? v.toFixed(1) : Math.round(v)) + (suffix||'');
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    // 整张卡片可点击跳转项目详情（inline onclick 作为主要绑定，addEventListener 作为兜底）
+    document.querySelectorAll('.work-card').forEach((card, idx) => {
+      if (!card.hasAttribute('onclick')) {
+        card.addEventListener('click', () => openProject(idx));
+      }
+    });
+
+    document.querySelectorAll('.work-card').forEach(card => {
+      var metTimers = [];
+      card.addEventListener('mouseenter', () => {
+        metTimers.forEach(clearTimeout);
+        metTimers = [];
+        card.querySelectorAll('[data-target]').forEach((el, i) => {
+          el.textContent = '—';
+          el.classList.remove('flip-in');
+          void el.offsetWidth; // force reflow
+          metTimers.push(setTimeout(() => {
+            el.classList.add('flip-in');
+            countUp(el, parseFloat(el.dataset.target), el.dataset.prefix||'', el.dataset.suffix||'', 1400);
+          }, i * 120));
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        metTimers.forEach(clearTimeout);
+        metTimers = [];
+        card.querySelectorAll('[data-target]').forEach(el => {
+          el.classList.remove('flip-in');
+          el.textContent = '—';
+        });
+      });
+    });
+
+    // ── Slideshow logic ─────────────────────────────────────────────
+    var slideshowTimers  = {};   // group → intervalId
+    var slideshowIndexes = {};   // group → current index
+    var SLIDE_DURATION   = 3000; // 3 seconds
+
+    // 获取某 group 中已上传的图片列表（用 data-uploaded 标记，避免 naturalWidth 时序问题）
+    function getSlideImgs(group) {
+      var prefixes = { ux: 'ux-img', research: 'research-img', ai: 'ai-img' };
+      var prefix = prefixes[group];
+      var imgs = [];
+      for (var i = 0; i < 5; i++) {
+        var el = document.getElementById(prefix + '-' + i);
+        if (el && el.dataset.uploaded === '1') {
+          imgs.push(el);
+        }
+      }
+      return imgs;
+    }
+
+    // 刷新 gallery UI（dots / counter / 显示第一张）
+    function refreshSlideshow(group) {
+      var gallery = document.querySelector('.expertise-gallery[data-group="' + group + '"]');
+      if (!gallery) return;
+
+      var imgs    = getSlideImgs(group);
+      var dotsEl  = gallery.querySelector('.slideshow-dots');
+      var counter = gallery.querySelector('.slideshow-counter');
+      var empty   = gallery.querySelector('.slideshow-empty');
+
+      // 隐藏/显示空状态
+      if (empty) empty.style.display = imgs.length ? 'none' : 'flex';
+
+      // 重置所有图片为隐藏
+      for (var i = 0; i < 5; i++) {
+        var prefixes2 = { ux: 'ux-img', research: 'research-img', ai: 'ai-img' };
+        var el = document.getElementById(prefixes2[group] + '-' + i);
+        if (el) el.classList.remove('slide-active');
+      }
+
+      // 构建 dots
+      dotsEl.innerHTML = '';
+      imgs.forEach(function(_, idx) {
+        var dot = document.createElement('div');
+        dot.className = 'slideshow-dot' + (idx === 0 ? ' active' : '');
+        dotsEl.appendChild(dot);
+      });
+
+      if (imgs.length === 0) {
+        counter.textContent = '— / —';
+        return;
+      }
+
+      // 显示第一张
+      slideshowIndexes[group] = 0;
+      imgs[0].classList.add('slide-active');
+      counter.textContent = '1 / ' + imgs.length;
+    }
+
+    // 切换到指定 index
+    function goToSlide(group, idx) {
+      var imgs = getSlideImgs(group);
+      if (!imgs.length) return;
+
+      idx = (idx + imgs.length) % imgs.length;
+      slideshowIndexes[group] = idx;
+
+      // 交叉淡入
+      imgs.forEach(function(img, i) {
+        img.classList.toggle('slide-active', i === idx);
+      });
+
+      // 更新 dots
+      var gallery = document.querySelector('.expertise-gallery[data-group="' + group + '"]');
+      if (!gallery) return;
+      var dots = gallery.querySelectorAll('.slideshow-dot');
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+
+      var counter = gallery.querySelector('.slideshow-counter');
+      counter.textContent = (idx + 1) + ' / ' + imgs.length;
+
+      // 进度条动画
+      var bar = gallery.querySelector('.slideshow-progress-bar');
+      if (bar) {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            bar.style.transition = 'width ' + SLIDE_DURATION + 'ms linear';
+            bar.style.width = '100%';
+          });
+        });
+      }
+    }
+
+    // 启动轮播
+    function startSlideshow(group) {
+      if (slideshowTimers[group]) return; // 已在运行
+      var imgs = getSlideImgs(group);
+      if (imgs.length <= 1) return; // 只有0或1张，不需要轮播
+
+      // 立即显示进度条
+      goToSlide(group, slideshowIndexes[group] || 0);
+
+      slideshowTimers[group] = setInterval(function() {
+        var cur = (slideshowIndexes[group] || 0) + 1;
+        goToSlide(group, cur);
+      }, SLIDE_DURATION);
+    }
+
+    // 停止轮播，重置到第一张
+    function stopSlideshow(group) {
+      if (slideshowTimers[group]) {
+        clearInterval(slideshowTimers[group]);
+        slideshowTimers[group] = null;
+      }
+      // 重置进度条
+      var gallery = document.querySelector('.expertise-gallery[data-group="' + group + '"]');
+      if (gallery) {
+        var bar = gallery.querySelector('.slideshow-progress-bar');
+        if (bar) { bar.style.transition = 'none'; bar.style.width = '0%'; }
+      }
+      // 回到第一张
+      goToSlide(group, 0);
+    }
+
+    // 绑定 hover 事件到三个 expertise-card
+    document.querySelectorAll('.expertise-card').forEach(function(card) {
+      var gallery = card.querySelector('.expertise-gallery');
+      if (!gallery) return;
+      var group = gallery.dataset.group;
+
+      card.addEventListener('mouseenter', function() { startSlideshow(group); });
+      card.addEventListener('mouseleave', function() { stopSlideshow(group); });
+    });
+
+    // 初始化所有 gallery 状态
+    ['ux', 'research', 'ai'].forEach(function(g) { refreshSlideshow(g); });
+
+    // QA
+    const qaAnswers = [
+      '我擅长 AI 对话流设计、用户增长与互动玩法设计，以及跨端的全链路体验优化——尤其擅长在 AI 与用户之间找到自然流畅的交互方式。',
+      '我习惯前置介入需求，先理解业务目标与用户行为，再结合用研和数据定义问题，拆解关键链路，形成设计策略并进行方案落地，项目上线后根据反馈持续迭代。',
+      'Vibe Coding 搭建互动产品、AI 生图制定视觉规范、制作 Skill 工具包提升团队效率——AI 是我的设计工具，而不只是辅助。'
+    ];
+    const qaBtns = document.querySelectorAll('.qa-btn');
+    const qaAnswer = document.getElementById('qa-answer');
+    const qaBubbleEl = document.getElementById('qa-bubble-text');
+    let activeQ = null, typingTimer = null;
+    qaBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = parseInt(btn.dataset.q);
+        if(activeQ === q){ qaAnswer.classList.remove('open'); btn.classList.remove('active'); activeQ=null; return; }
+        qaBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        qaAnswer.classList.add('open');
+        activeQ = q;
+        clearInterval(typingTimer);
+        qaBubbleEl.textContent = '';
+        const text = qaAnswers[q]; let i = 0;
+        typingTimer = setInterval(() => { qaBubbleEl.textContent += text[i++]; if(i>=text.length) clearInterval(typingTimer); }, 26);
+      });
+    });
+  </script>
+
+
+<div id="save-toast" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px); background: rgba(30, 30, 30, 0.92); backdrop-filter: blur(12px); color: rgb(232, 232, 232); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; padding: 8px 18px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); z-index: 9999; opacity: 0; transition: opacity 0.25s, transform 0.25s; pointer-events: none;">✓ 图片已自动保存</div>  <script defer src="assets/js/ambient.js?v=linear-modern-2"></script>
+</body><chatgpt-sidebar data-rendered="true" data-gpts-theme="light"></chatgpt-sidebar></html>
