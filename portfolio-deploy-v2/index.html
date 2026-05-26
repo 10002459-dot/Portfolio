@@ -381,7 +381,40 @@
       .work-company { flex-direction:column; gap:18px; margin-bottom:34px; }
       .work-company-logo { width:190px; }
     }
-  </style>
+  
+    /* Image loading: skeleton placeholder + fade-in */
+    .pd-gallery-img {
+      aspect-ratio: 16/9;
+      background: var(--color-bg-elevated);
+      background-image: linear-gradient(90deg, var(--color-bg-elevated) 0%, #1a1a1a 50%, var(--color-bg-elevated) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .pd-gallery-img[data-loaded="true"] {
+      animation: none;
+      background: none;
+      opacity: 1;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    /* Work section card images */
+    .work-cover { 
+      aspect-ratio: 16/9; 
+      background: var(--color-bg-elevated);
+      object-fit: cover;
+    }
+    /* Expertise slide images */
+    .expertise-slide img {
+      aspect-ratio: 16/9;
+      background: var(--color-bg-elevated);
+      object-fit: cover;
+    }
+
+    </style>
   <link rel="stylesheet" href="assets/css/design-system.css?v=linear-modern-2">
 </head>
 <body style=""><div id="ambient-blobs"><div class="amb-blob amb-blob--1"></div><div class="amb-blob amb-blob--2"></div><div class="amb-blob amb-blob--3"></div><div class="amb-blob amb-blob--4"></div></div>
@@ -602,9 +635,9 @@
           <div class="expertise-gallery" data-group="ai">
             <div class="slideshow-progress"><div class="slideshow-progress-bar" style="transition: width 3000ms linear; width: 100%;"></div></div>
             <div class="slideshow-wrap">
-              <img loading="lazy" decoding="async" id="ai-img-0" src="assets/images/ai-img-0.webp" alt="" style="display: block;" data-uploaded="1" class="slide-active">
-              <img loading="lazy" decoding="async" id="ai-img-1" src="assets/images/ai-img-1.webp" alt="" style="display: block;" data-uploaded="1">
-              <img loading="lazy" decoding="async" id="ai-img-2" src="assets/images/ai-img-2.webp" alt="" style="display: block;" data-uploaded="1">
+              <img id="ai-img-0" src="assets/images/ai-img-0.webp" alt="" style="display: block;" data-uploaded="1" class="slide-active">
+              <img id="ai-img-1" src="assets/images/ai-img-1.webp" alt="" style="display: block;" data-uploaded="1">
+              <img id="ai-img-2" src="assets/images/ai-img-2.webp" alt="" style="display: block;" data-uploaded="1">
               <img id="ai-img-3" src="" alt="">
               <img id="ai-img-4" src="" alt="">
               <div class="slideshow-empty" style="display: none;">
@@ -631,7 +664,7 @@
         <article class="work-card reveal visible" style="transition-delay: 0s; --ms-x: 437px; --ms-y: 259.328125px;">
           <div class="work-left">
             <div class="work-visual">
-              <img loading="lazy" decoding="async" id="work-img-0" src="assets/images/work-img-0.webp" alt="AI县域服务平台" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
+              <img id="work-img-0" src="assets/images/work-img-0.webp" alt="AI县域服务平台" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
               <div class="work-placeholder" id="work-ph-0" style="display: none;"><span class="work-placeholder-text">// 点击「添加图片」上传封面</span></div>
             </div>
             <span class="work-cta">查看完整案例 <span>→</span></span>
@@ -656,7 +689,7 @@
         <article class="work-card reveal visible" style="transition-delay: 0.06s; --ms-x: 131px; --ms-y: 137.71875px;">
           <div class="work-left">
             <div class="work-visual">
-              <img loading="lazy" decoding="async" id="work-img-1" src="assets/images/work-img-1.webp" alt="平台用户增长设计" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
+              <img id="work-img-1" src="assets/images/work-img-1.webp" alt="平台用户增长设计" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
               <div class="work-placeholder" id="work-ph-1" style="display: none;"><span class="work-placeholder-text">// 点击「添加图片」上传封面</span></div>
             </div>
             <span class="work-cta">查看完整案例 <span>→</span></span>
@@ -681,7 +714,7 @@
         <article class="work-card reveal visible" style="transition-delay: 0.12s;">
           <div class="work-left">
             <div class="work-visual">
-              <img loading="lazy" decoding="async" id="work-img-2" src="assets/images/work-img-2.webp" alt="公益宝贝体验重构" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
+              <img id="work-img-2" src="assets/images/work-img-2.webp" alt="公益宝贝体验重构" style="width: 100%; height: 100%; object-fit: cover; display: block;" data-uploaded="1">
               <div class="work-placeholder" id="work-ph-2" style="display: none;"><span class="work-placeholder-text">// 点击「添加图片」上传封面</span></div>
             </div>
             <span class="work-cta">查看完整案例 <span>→</span></span>
@@ -933,27 +966,27 @@
     </div>
     <div class="pd-body">
       <div class="container">
-        <div id="pd-gallery" class="pd-gallery" style=""><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-0.webp" class="pd-gallery-img" alt="案例图 1"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-1.webp" class="pd-gallery-img" alt="案例图 2"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-2.webp" class="pd-gallery-img" alt="案例图 3"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-3.webp" class="pd-gallery-img" alt="案例图 4"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-4.webp" class="pd-gallery-img" alt="案例图 5"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-5.webp" class="pd-gallery-img" alt="案例图 6"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-6.webp" class="pd-gallery-img" alt="案例图 7"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-7.webp" class="pd-gallery-img" alt="案例图 8"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-8.webp" class="pd-gallery-img" alt="案例图 9"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-9.webp" class="pd-gallery-img" alt="案例图 10"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-10.webp" class="pd-gallery-img" alt="案例图 11"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-11.webp" class="pd-gallery-img" alt="案例图 12"><img src="file:///Users/charlie/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/portfolio%205/assets/images/pd-img-2-12.webp" class="pd-gallery-img" alt="案例图 13"></div>
+        <div id="pd-gallery" class="pd-gallery" style=""><img src="assets/images/pd-img-2-0.webp" class="pd-gallery-img" alt="案例图 1"><img src="assets/images/pd-img-2-1.webp" class="pd-gallery-img" alt="案例图 2"><img src="assets/images/pd-img-2-2.webp" class="pd-gallery-img" alt="案例图 3"><img src="assets/images/pd-img-2-3.webp" class="pd-gallery-img" alt="案例图 4"><img src="assets/images/pd-img-2-4.webp" class="pd-gallery-img" alt="案例图 5"><img src="assets/images/pd-img-2-5.webp" class="pd-gallery-img" alt="案例图 6"><img src="assets/images/pd-img-2-6.webp" class="pd-gallery-img" alt="案例图 7"><img src="assets/images/pd-img-2-7.webp" class="pd-gallery-img" alt="案例图 8"><img src="assets/images/pd-img-2-8.webp" class="pd-gallery-img" alt="案例图 9"><img src="assets/images/pd-img-2-9.webp" class="pd-gallery-img" alt="案例图 10"><img src="assets/images/pd-img-2-10.webp" class="pd-gallery-img" alt="案例图 11"><img src="assets/images/pd-img-2-11.webp" class="pd-gallery-img" alt="案例图 12"><img src="assets/images/pd-img-2-12.webp" class="pd-gallery-img" alt="案例图 13"></div>
         <div id="pd-empty" class="pd-empty" style="display: none;">// 暂无案例图片，请通过右下角「添加图片」上传</div>
       </div>
     </div>
     <!-- 项目详情图片存储（随页面导出，每项目最多20张） -->
-    <img id="pd-img-0-0" loading="lazy" decoding="async"src="assets/images/pd-img-0-0.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-1" loading="lazy" decoding="async"src="assets/images/pd-img-0-1.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-2" loading="lazy" decoding="async"src="assets/images/pd-img-0-2.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-3" loading="lazy" decoding="async"src="assets/images/pd-img-0-3.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-4" loading="lazy" decoding="async"src="assets/images/pd-img-0-4.webp" style="display:none" data-uploaded="1">
-    <img id="pd-img-0-5" loading="lazy" decoding="async"src="assets/images/pd-img-0-5.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-6" loading="lazy" decoding="async"src="assets/images/pd-img-0-6.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-7" loading="lazy" decoding="async"src="assets/images/pd-img-0-7.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-8" src="" style="display:none"><img id="pd-img-0-9" src="" style="display:none">
+    <img id="pd-img-0-0"src="assets/images/pd-img-0-0.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-1"src="assets/images/pd-img-0-1.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-2"src="assets/images/pd-img-0-2.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-3"src="assets/images/pd-img-0-3.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-4"src="assets/images/pd-img-0-4.webp" style="display:none" data-uploaded="1">
+    <img id="pd-img-0-5"src="assets/images/pd-img-0-5.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-6"src="assets/images/pd-img-0-6.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-7"src="assets/images/pd-img-0-7.webp" style="display:none" data-uploaded="1"><img id="pd-img-0-8" src="" style="display:none"><img id="pd-img-0-9" src="" style="display:none">
     <img id="pd-img-0-10" src="" style="display:none"><img id="pd-img-0-11" src="" style="display:none"><img id="pd-img-0-12" src="" style="display:none"><img id="pd-img-0-13" src="" style="display:none"><img id="pd-img-0-14" src="" style="display:none">
     <img id="pd-img-0-15" src="" style="display:none"><img id="pd-img-0-16" src="" style="display:none"><img id="pd-img-0-17" src="" style="display:none"><img id="pd-img-0-18" src="" style="display:none"><img id="pd-img-0-19" src="" style="display:none">
-    <img loading="lazy" decoding="async" id="pd-img-1-0" src="assets/images/pd-img-1-0.webp" style="display:none" data-src="assets/images/pd-img-1-0.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-1" src="assets/images/pd-img-1-1.webp" style="display:none" data-src="assets/images/pd-img-1-1.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-2" src="assets/images/pd-img-1-2.webp" style="display:none" data-src="assets/images/pd-img-1-2.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-3" src="assets/images/pd-img-1-3.webp" style="display:none" data-src="assets/images/pd-img-1-3.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-4" src="assets/images/pd-img-1-4.webp" style="display:none" data-src="assets/images/pd-img-1-4.webp" data-uploaded="1">
-    <img loading="lazy" decoding="async" id="pd-img-1-5" src="assets/images/pd-img-1-5.webp" style="display:none" data-src="assets/images/pd-img-1-5.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-6" src="assets/images/pd-img-1-6.webp" style="display:none" data-src="assets/images/pd-img-1-6.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-7" src="assets/images/pd-img-1-7.webp" style="display:none" data-src="assets/images/pd-img-1-7.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-8" src="assets/images/pd-img-1-8.webp" style="display:none" data-src="assets/images/pd-img-1-8.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-9" src="assets/images/pd-img-1-9.webp" style="display:none" data-src="assets/images/pd-img-1-9.webp" data-uploaded="1">
-    <img loading="lazy" decoding="async" id="pd-img-1-10" src="assets/images/pd-img-1-10.webp" style="display:none" data-src="assets/images/pd-img-1-10.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-11" src="assets/images/pd-img-1-11.webp" style="display:none" data-src="assets/images/pd-img-1-11.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-12" src="assets/images/pd-img-1-12.webp" style="display:none" data-src="assets/images/pd-img-1-12.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-13" src="assets/images/pd-img-1-13.webp" style="display:none" data-src="assets/images/pd-img-1-13.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-14" src="assets/images/pd-img-1-14.webp" style="display:none" data-src="assets/images/pd-img-1-14.webp" data-uploaded="1">
-    <img loading="lazy" decoding="async" id="pd-img-1-15" src="assets/images/pd-img-1-15.webp" style="display:none" data-src="assets/images/pd-img-1-15.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-1-16" src="assets/images/pd-img-1-16.webp" style="display:none" data-src="assets/images/pd-img-1-16.webp" data-uploaded="1"><img id="pd-img-1-17" src="" style="display:none"><img id="pd-img-1-18" src="" style="display:none"><img id="pd-img-1-19" src="" style="display:none">
-    <img loading="lazy" decoding="async" id="pd-img-2-0" src="assets/images/pd-img-2-0.webp" style="display:none" data-src="assets/images/pd-img-2-0.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-1" src="assets/images/pd-img-2-1.webp" style="display:none" data-src="assets/images/pd-img-2-1.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-2" src="assets/images/pd-img-2-2.webp" style="display:none" data-src="assets/images/pd-img-2-2.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-3" src="assets/images/pd-img-2-3.webp" style="display:none" data-src="assets/images/pd-img-2-3.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-4" src="assets/images/pd-img-2-4.webp" style="display:none" data-src="assets/images/pd-img-2-4.webp" data-uploaded="1">
-    <img loading="lazy" decoding="async" id="pd-img-2-5" src="assets/images/pd-img-2-5.webp" style="display:none" data-src="assets/images/pd-img-2-5.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-6" src="assets/images/pd-img-2-6.webp" style="display:none" data-src="assets/images/pd-img-2-6.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-7" src="assets/images/pd-img-2-7.webp" style="display:none" data-src="assets/images/pd-img-2-7.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-8" src="assets/images/pd-img-2-8.webp" style="display:none" data-src="assets/images/pd-img-2-8.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-9" src="assets/images/pd-img-2-9.webp" style="display:none" data-src="assets/images/pd-img-2-9.webp" data-uploaded="1">
-    <img loading="lazy" decoding="async" id="pd-img-2-10" src="assets/images/pd-img-2-10.webp" style="display:none" data-src="assets/images/pd-img-2-10.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-11" src="assets/images/pd-img-2-11.webp" style="display:none" data-src="assets/images/pd-img-2-11.webp" data-uploaded="1"><img loading="lazy" decoding="async" id="pd-img-2-12" src="assets/images/pd-img-2-12.webp" style="display:none" data-src="assets/images/pd-img-2-12.webp" data-uploaded="1"><img id="pd-img-2-13" src="" style="display:none"><img id="pd-img-2-14" src="" style="display:none">
+    <img id="pd-img-1-0" src="assets/images/pd-img-1-0.webp" style="display:none" data-src="assets/images/pd-img-1-0.webp" data-uploaded="1"><img id="pd-img-1-1" src="assets/images/pd-img-1-1.webp" style="display:none" data-src="assets/images/pd-img-1-1.webp" data-uploaded="1"><img id="pd-img-1-2" src="assets/images/pd-img-1-2.webp" style="display:none" data-src="assets/images/pd-img-1-2.webp" data-uploaded="1"><img id="pd-img-1-3" src="assets/images/pd-img-1-3.webp" style="display:none" data-src="assets/images/pd-img-1-3.webp" data-uploaded="1"><img id="pd-img-1-4" src="assets/images/pd-img-1-4.webp" style="display:none" data-src="assets/images/pd-img-1-4.webp" data-uploaded="1">
+    <img id="pd-img-1-5" src="assets/images/pd-img-1-5.webp" style="display:none" data-src="assets/images/pd-img-1-5.webp" data-uploaded="1"><img id="pd-img-1-6" src="assets/images/pd-img-1-6.webp" style="display:none" data-src="assets/images/pd-img-1-6.webp" data-uploaded="1"><img id="pd-img-1-7" src="assets/images/pd-img-1-7.webp" style="display:none" data-src="assets/images/pd-img-1-7.webp" data-uploaded="1"><img id="pd-img-1-8" src="assets/images/pd-img-1-8.webp" style="display:none" data-src="assets/images/pd-img-1-8.webp" data-uploaded="1"><img id="pd-img-1-9" src="assets/images/pd-img-1-9.webp" style="display:none" data-src="assets/images/pd-img-1-9.webp" data-uploaded="1">
+    <img id="pd-img-1-10" src="assets/images/pd-img-1-10.webp" style="display:none" data-src="assets/images/pd-img-1-10.webp" data-uploaded="1"><img id="pd-img-1-11" src="assets/images/pd-img-1-11.webp" style="display:none" data-src="assets/images/pd-img-1-11.webp" data-uploaded="1"><img id="pd-img-1-12" src="assets/images/pd-img-1-12.webp" style="display:none" data-src="assets/images/pd-img-1-12.webp" data-uploaded="1"><img id="pd-img-1-13" src="assets/images/pd-img-1-13.webp" style="display:none" data-src="assets/images/pd-img-1-13.webp" data-uploaded="1"><img id="pd-img-1-14" src="assets/images/pd-img-1-14.webp" style="display:none" data-src="assets/images/pd-img-1-14.webp" data-uploaded="1">
+    <img id="pd-img-1-15" src="assets/images/pd-img-1-15.webp" style="display:none" data-src="assets/images/pd-img-1-15.webp" data-uploaded="1"><img id="pd-img-1-16" src="assets/images/pd-img-1-16.webp" style="display:none" data-src="assets/images/pd-img-1-16.webp" data-uploaded="1"><img id="pd-img-1-17" src="" style="display:none"><img id="pd-img-1-18" src="" style="display:none"><img id="pd-img-1-19" src="" style="display:none">
+    <img id="pd-img-2-0" src="assets/images/pd-img-2-0.webp" style="display:none" data-src="assets/images/pd-img-2-0.webp" data-uploaded="1"><img id="pd-img-2-1" src="assets/images/pd-img-2-1.webp" style="display:none" data-src="assets/images/pd-img-2-1.webp" data-uploaded="1"><img id="pd-img-2-2" src="assets/images/pd-img-2-2.webp" style="display:none" data-src="assets/images/pd-img-2-2.webp" data-uploaded="1"><img id="pd-img-2-3" src="assets/images/pd-img-2-3.webp" style="display:none" data-src="assets/images/pd-img-2-3.webp" data-uploaded="1"><img id="pd-img-2-4" src="assets/images/pd-img-2-4.webp" style="display:none" data-src="assets/images/pd-img-2-4.webp" data-uploaded="1">
+    <img id="pd-img-2-5" src="assets/images/pd-img-2-5.webp" style="display:none" data-src="assets/images/pd-img-2-5.webp" data-uploaded="1"><img id="pd-img-2-6" src="assets/images/pd-img-2-6.webp" style="display:none" data-src="assets/images/pd-img-2-6.webp" data-uploaded="1"><img id="pd-img-2-7" src="assets/images/pd-img-2-7.webp" style="display:none" data-src="assets/images/pd-img-2-7.webp" data-uploaded="1"><img id="pd-img-2-8" src="assets/images/pd-img-2-8.webp" style="display:none" data-src="assets/images/pd-img-2-8.webp" data-uploaded="1"><img id="pd-img-2-9" src="assets/images/pd-img-2-9.webp" style="display:none" data-src="assets/images/pd-img-2-9.webp" data-uploaded="1">
+    <img id="pd-img-2-10" src="assets/images/pd-img-2-10.webp" style="display:none" data-src="assets/images/pd-img-2-10.webp" data-uploaded="1"><img id="pd-img-2-11" src="assets/images/pd-img-2-11.webp" style="display:none" data-src="assets/images/pd-img-2-11.webp" data-uploaded="1"><img id="pd-img-2-12" src="assets/images/pd-img-2-12.webp" style="display:none" data-src="assets/images/pd-img-2-12.webp" data-uploaded="1"><img id="pd-img-2-13" src="" style="display:none"><img id="pd-img-2-14" src="" style="display:none">
     <img id="pd-img-2-15" src="" style="display:none"><img id="pd-img-2-16" src="" style="display:none"><img id="pd-img-2-17" src="" style="display:none"><img id="pd-img-2-18" src="" style="display:none"><img id="pd-img-2-19" src="" style="display:none">
     <!-- AI创新子tab 0b: OKR×AI提效工具 -->
-    <img id="pd-img-0b-0" loading="lazy" decoding="async"src="assets/images/pd-img-0b-0.webp" style="display:none" data-uploaded="1"><img id="pd-img-0b-1" loading="lazy" decoding="async"src="assets/images/pd-img-0b-1.webp" style="display:none" data-uploaded="1"><img id="pd-img-0b-2" loading="lazy" decoding="async"src="assets/images/pd-img-0b-2.webp" style="display:none" data-uploaded="1"><img id="pd-img-0b-3" src="" style="display:none"><img id="pd-img-0b-4" src="" style="display:none"><img id="pd-img-0b-5" src="" style="display:none"><img id="pd-img-0b-6" src="" style="display:none"><img id="pd-img-0b-7" src="" style="display:none"><img id="pd-img-0b-8" src="" style="display:none"><img id="pd-img-0b-9" src="" style="display:none">
+    <img id="pd-img-0b-0"src="assets/images/pd-img-0b-0.webp" style="display:none" data-uploaded="1"><img id="pd-img-0b-1"src="assets/images/pd-img-0b-1.webp" style="display:none" data-uploaded="1"><img id="pd-img-0b-2"src="assets/images/pd-img-0b-2.webp" style="display:none" data-uploaded="1"><img id="pd-img-0b-3" src="" style="display:none"><img id="pd-img-0b-4" src="" style="display:none"><img id="pd-img-0b-5" src="" style="display:none"><img id="pd-img-0b-6" src="" style="display:none"><img id="pd-img-0b-7" src="" style="display:none"><img id="pd-img-0b-8" src="" style="display:none"><img id="pd-img-0b-9" src="" style="display:none">
     <!-- AI创新子tab 0c: AI设计工作流探索 -->
-    <img id="pd-img-0c-0" loading="lazy" decoding="async"src="assets/images/pd-img-0c-0.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-1" loading="lazy" decoding="async"src="assets/images/pd-img-0c-1.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-2" loading="lazy" decoding="async"src="assets/images/pd-img-0c-2.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-3" loading="lazy" decoding="async"src="assets/images/pd-img-0c-3.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-4" src="" style="display:none"><img id="pd-img-0c-5" src="" style="display:none"><img id="pd-img-0c-6" src="" style="display:none"><img id="pd-img-0c-7" src="" style="display:none"><img id="pd-img-0c-8" src="" style="display:none"><img id="pd-img-0c-9" src="" style="display:none">
+    <img id="pd-img-0c-0"src="assets/images/pd-img-0c-0.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-1"src="assets/images/pd-img-0c-1.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-2"src="assets/images/pd-img-0c-2.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-3"src="assets/images/pd-img-0c-3.webp" style="display:none" data-uploaded="1"><img id="pd-img-0c-4" src="" style="display:none"><img id="pd-img-0c-5" src="" style="display:none"><img id="pd-img-0c-6" src="" style="display:none"><img id="pd-img-0c-7" src="" style="display:none"><img id="pd-img-0c-8" src="" style="display:none"><img id="pd-img-0c-9" src="" style="display:none">
   </div>
 
   <!-- Editor panel -->
@@ -1062,19 +1095,19 @@
         <div class="editor-section-title">专业技能 · AI 设计工作流（最多5张）</div>
         <div class="editor-slots">
           <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ai-0">
-            <img loading="lazy" decoding="async" id="slot-ai-0-preview" src="assets/images/ai-img-0.webp" style="display: block;">
+            <img id="slot-ai-0-preview" src="assets/images/ai-img-0.webp" style="display: block;">
             <div class="editor-slot-label">ai · 第1张</div>
             <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
             <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-0','slot-ai-0')">
           </div>
           <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ai-1">
-            <img loading="lazy" decoding="async" id="slot-ai-1-preview" src="assets/images/ai-img-1.webp" style="display: block;">
+            <img id="slot-ai-1-preview" src="assets/images/ai-img-1.webp" style="display: block;">
             <div class="editor-slot-label">ai · 第2张</div>
             <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
             <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-1','slot-ai-1')">
           </div>
           <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-ai-2">
-            <img loading="lazy" decoding="async" id="slot-ai-2-preview" src="assets/images/ai-img-2.webp" style="display: block;">
+            <img id="slot-ai-2-preview" src="assets/images/ai-img-2.webp" style="display: block;">
             <div class="editor-slot-label">ai · 第3张</div>
             <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择图片</div></div>
             <input type="file" accept="image/*" onchange="embedImage(this,'ai-img-2','slot-ai-2')">
@@ -1099,19 +1132,19 @@
         <div class="editor-section-title">作品展示 · 项目封面图</div>
         <div class="editor-slots">
           <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-work-0">
-            <img loading="lazy" decoding="async" id="slot-work-0-preview" src="assets/images/work-img-0.webp" style="display: block;">
+            <img id="slot-work-0-preview" src="assets/images/work-img-0.webp" style="display: block;">
             <div class="editor-slot-label">01 AI县域服务平台</div>
             <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择封面图</div></div>
             <input type="file" accept="image/*" onchange="embedImage(this,'work-img-0','slot-work-0')">
           </div>
           <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-work-1">
-            <img loading="lazy" decoding="async" id="slot-work-1-preview" src="assets/images/work-img-1.webp" style="display: block;">
+            <img id="slot-work-1-preview" src="assets/images/work-img-1.webp" style="display: block;">
             <div class="editor-slot-label">02 平台用户增长</div>
             <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择封面图</div></div>
             <input type="file" accept="image/*" onchange="embedImage(this,'work-img-1','slot-work-1')">
           </div>
           <div class="editor-slot has-img" onclick="this.querySelector('input').click()" id="slot-work-2">
-            <img loading="lazy" decoding="async" id="slot-work-2-preview" src="assets/images/work-img-2.webp" style="display: block;">
+            <img id="slot-work-2-preview" src="assets/images/work-img-2.webp" style="display: block;">
             <div class="editor-slot-label">03 公益宝贝重构</div>
             <div class="editor-slot-overlay"><div class="editor-slot-overlay-icon">＋</div><div class="editor-slot-overlay-text">选择封面图</div></div>
             <input type="file" accept="image/*" onchange="embedImage(this,'work-img-2','slot-work-2')">
@@ -2297,4 +2330,30 @@
 
 <div id="save-toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:rgba(30,30,30,.92);backdrop-filter:blur(12px);color:rgb(232,232,232);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.05em;padding:8px 18px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);z-index:9999;opacity:0;transition:opacity 0.25s,transform 0.25s;pointer-events:none;"></div>  <script defer="" src="assets/js/ambient.js?v=linear-modern-2"></script>
 <chatgpt-sidebar data-rendered="true" data-gpts-theme="light"></chatgpt-sidebar>
+<script>
+    // Gallery image fade-in on load
+    document.addEventListener('DOMContentLoaded', function() {
+      function markLoaded(img) {
+        if (img.complete && img.naturalWidth > 0) {
+          img.dataset.loaded = 'true';
+        } else {
+          img.addEventListener('load', function() { img.dataset.loaded = 'true'; });
+          img.addEventListener('error', function() { img.dataset.loaded = 'true'; img.style.display='none'; });
+        }
+      }
+      // Observe gallery for new images (dynamically added by openProject/switchSubTab)
+      var gallery = document.getElementById('pd-gallery');
+      if (gallery) {
+        new MutationObserver(function(mutations) {
+          mutations.forEach(function(m) {
+            m.addedNodes.forEach(function(n) {
+              if (n.tagName === 'IMG') markLoaded(n);
+            });
+          });
+        }).observe(gallery, { childList: true });
+        // Mark existing
+        gallery.querySelectorAll('img').forEach(markLoaded);
+      }
+    });
+</script>
 </body></html>
